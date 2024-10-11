@@ -1,0 +1,21 @@
+name: Deploy Cyberprism Web
+
+on:
+  push:
+    branches:
+      - feature/mvp-web
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install SSH key
+      run: echo "${{ secrets.EC2_PRIVATE_KEY }}" > private_key && chmod 600 private_key
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/web && git pull && npm install && npm run build && pm2 restart your-app'
