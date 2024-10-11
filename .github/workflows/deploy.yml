@@ -1,4 +1,4 @@
-name: Deploy Cyberprism Web
+name: Deploy Cyberprism Web app
 
 on:
   push:
