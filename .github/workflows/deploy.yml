@@ -27,10 +27,10 @@ jobs:
       run: ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'export NVM_DIR=~/.nvm && source ~/.nvm/nvm.sh && npm --help'
 
     - name: Install dependencies
-      run: ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/cyberprism-web && sudo npm install'
+      run: ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/cyberprism-web && export NVM_DIR=~/.nvm && source ~/.nvm/nvm.sh && sudo npm install'
 
     - name: Build the app
-      run: ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/cyberprism-web && sudo npm run build'
+      run: ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/cyberprism-web && export NVM_DIR=~/.nvm && source ~/.nvm/nvm.sh && sudo npm run build'
 
     - name: Restart app with PM2
       run: ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'pm2 restart your-app'
