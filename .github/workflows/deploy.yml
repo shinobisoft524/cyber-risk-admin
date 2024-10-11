@@ -18,4 +18,4 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/cyberprism-web && git pull && npm install && npm run build && pm2 restart your-app'
+        ssh -o StrictHostKeyChecking=no -i private_key ubuntu@54.216.70.166 'cd /var/www/cyberprism-web && sudo git pull && npm install && npm run build && pm2 restart your-app'
