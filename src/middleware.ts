@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/home')) {
+  if (request.nextUrl.pathname === '/') {
     return NextResponse.next();
   }
   let isLogin = request.cookies.get('isLogin');
@@ -18,12 +18,12 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.startsWith('/auth/login') ||
       request.nextUrl.pathname.startsWith('/auth/register')
     ) {
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
   }
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/', '/auth/register', '/auth/login'],
+  matcher: ['/', '/dashboard', '/auth/register', '/auth/login'],
 };

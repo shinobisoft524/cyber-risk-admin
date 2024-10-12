@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import PageContainer from '@/app/components/container/PageContainer';
 import Logo from '@/app/(DashboardLayout)/layout/shared/logo/Logo';
 import AuthLogin from '@/app/auth/authForms/AuthLogin';
-import Image from 'next/image';
+import Vimeo from './iframe';
 
 export default function Login() {
   return (
@@ -73,12 +73,7 @@ export default function Login() {
                   },
                 }}
               >
-                <iframe
-                  src="https://player.vimeo.com/video/912936909?h=200ebc5101&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  title="CyberPrism Testimonial"
-                  name="fitvid0"
-                ></iframe>
+                <Vimeo />
                 {/* <Image
                 src={'/images/backgrounds/login-bg.svg'}
                 alt="bg"

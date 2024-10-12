@@ -24,6 +24,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.1",
     "@mui/x-date-pickers": "^5.0.20",
     "@mui/x-tree-view": "^6.17.0",
+    "@next/third-parties": "^14.2.15",
     "@reduxjs/toolkit": "^1.9.7",
     "@tabler/icons-react": "^2.39.0",
     "@tanstack/react-table": "^8.20.1",

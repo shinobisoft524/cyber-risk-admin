@@ -155,7 +155,7 @@ const Profile = () => {
               <Image src={"/images/backgrounds/unlimited-bg.png"} width={150} height={183} alt="unlimited" className="signup-bg" />
             </Box>
           </Box>
-          <Button href="/auth/auth1/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button href="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
             Logout
           </Button>
         </Box>

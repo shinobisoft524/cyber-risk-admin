@@ -13,11 +13,13 @@ import CustomCheckbox from '@/app/components/forms/theme-elements/CustomCheckbox
 import CustomTextField from '@/app/components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import AuthSocialButtons from './AuthSocialButtons';
-import { useSelector, useDispatch } from '@/store/hooks';
+import { useDispatch } from '@/store/hooks';
 import { login as _login } from '@/actions/auth';
+import { usePathname } from 'next/navigation';
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const dispatch = useDispatch();
+  const pathname = usePathname();
 
   const [email, setEmail] = useState<string>('welcome@cyberriskinternational.com');
   const [password, setPassword] = useState<string>('abcdABCD1234!@#$');
@@ -99,7 +101,13 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
         </Stack>
       </Stack>
       <Box>
-        <Button color="primary" variant="contained" size="large" fullWidth onClick={handleLogin}>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          fullWidth
+          onClick={() => handleLogin()}
+        >
           Sign In
         </Button>
       </Box>

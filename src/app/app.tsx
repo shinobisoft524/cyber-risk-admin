@@ -9,7 +9,6 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { AppState } from '@/store/store';
 import '@/utils/i18n';
 import '@/app/api/index';
-import GuardContainer from '@/app/components/guard/GuardContainer';
 
 const MyApp = ({ children }: { children: React.ReactNode }) => {
   const theme = ThemeSettings();
@@ -17,16 +16,14 @@ const MyApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <GuardContainer>
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <ThemeProvider theme={theme}>
-            <RTL direction={customizer.activeDir}>
-              <CssBaseline />
-              {children}
-            </RTL>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </GuardContainer>
+      <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+        <ThemeProvider theme={theme}>
+          <RTL direction={customizer.activeDir}>
+            <CssBaseline />
+            {children}
+          </RTL>
+        </ThemeProvider>
+      </AppRouterCacheProvider>
     </>
   );
 };

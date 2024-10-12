@@ -1,4 +1,4 @@
-import { RegisterSchema, SigninSchema } from '@/cmodules/xvalidations';
+import { RegisterSchema, SigninSchema } from '@/cmodules/validations';
 import { login as _login, register as _register } from '@/apis/auth.api';
 import { useSelector, useDispatch } from '@/store/hooks';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
@@ -17,14 +17,17 @@ export async function register(data: { email: string; password: string }) {
   return res;
 }
 
-export function login(data: { email: string; password: string }, _dispatch: Dispatch<AnyAction>) {
+export async function login(
+  data: { email: string; password: string },
+  _dispatch: Dispatch<AnyAction>
+) {
   const validatedFields = SigninSchema.safeParse(data);
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
-  _login(data).then((res: any) => {
+  return _login(data).then((res: any) => {
     if (res.statusCode === 200 && !!res.data) {
       _dispatch(
         setUser({
@@ -32,6 +35,7 @@ export function login(data: { email: string; password: string }, _dispatch: Disp
           user: res.data,
         })
       );
+      return true;
     } else {
       _dispatch(
         setUser({
@@ -39,6 +43,7 @@ export function login(data: { email: string; password: string }, _dispatch: Disp
           user: null,
         })
       );
+      return false;
     }
   });
 }

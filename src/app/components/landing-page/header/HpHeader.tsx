@@ -64,7 +64,7 @@ const HpHeader = (props: any) => {
               <Stack spacing={1} direction="row" alignItems="center">
                 <Navigations />
               </Stack>
-              <Button color="primary" variant="contained" href="/auth/auth1/login">
+              <Button color="primary" variant="contained" href="/auth/login">
                 Log In
               </Button>
             </>
