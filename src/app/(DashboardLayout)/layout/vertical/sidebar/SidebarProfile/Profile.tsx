@@ -7,12 +7,21 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useSelector } from '@/store/hooks';
 import { IconPower } from '@tabler/icons-react';
 import { AppState } from '@/store/store';
-import Link from 'next/link';
+import { logout as _logout } from '@/actions/auth';
+import { useDispatch } from '@/store/hooks';
+import { useRouter } from 'next/navigation';
 
 export const Profile = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: AppState) => state.auth.user);
   const customizer = useSelector((state: AppState) => state.customizer);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
+
+  const handleLogOut = async () => {
+    _logout({ email: user.email }, dispatch, router);
+  };
 
   return (
     <Box
@@ -23,7 +32,11 @@ export const Profile = () => {
     >
       {!hideMenu ? (
         <>
-          <Avatar alt="Remy Sharp" src={"/images/profile/user-1.jpg"} sx={{height: 40, width: 40}} />
+          <Avatar
+            alt="Remy Sharp"
+            src={'/images/profile/user-1.jpg'}
+            sx={{ height: 40, width: 40 }}
+          />
 
           <Box>
             <Typography variant="h6">Mathew</Typography>
@@ -31,13 +44,7 @@ export const Profile = () => {
           </Box>
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
-              <IconButton
-                color="primary"
-                component={Link}
-                href="/auth/login"
-                aria-label="logout"
-                size="small"
-              >
+              <IconButton color="primary" aria-label="logout" size="small" onClick={handleLogOut}>
                 <IconPower size="20" />
               </IconButton>
             </Tooltip>

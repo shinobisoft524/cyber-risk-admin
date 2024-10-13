@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  console.log('Request user info: ', request.cookies.get('isLogin'));
   if (request.nextUrl.pathname === '/') {
     return NextResponse.next();
   }
@@ -11,7 +12,7 @@ export async function middleware(request: NextRequest) {
       !request.nextUrl.pathname.startsWith('/auth/login') &&
       !request.nextUrl.pathname.startsWith('/auth/register')
     ) {
-      return NextResponse.redirect(new URL('/auth/login', request.url));
+      return NextResponse.redirect(new URL('/auth/login?expired=true', request.url));
     }
   } else {
     if (

@@ -13,8 +13,20 @@ import { IconMail } from '@tabler/icons-react';
 import { Stack } from '@mui/system';
 import Image from 'next/image';
 
+import { AppState } from '@/store/store';
+import { logout as _logout } from '@/actions/auth';
+import { useDispatch, useSelector } from '@/store/hooks';
+import { useRouter } from 'next/navigation';
 
 const Profile = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const user = useSelector((state: AppState) => state.auth.user);
+
+  const handleLogOut = async () => {
+    _logout({ email: user.email }, dispatch, router);
+  };
+
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -39,7 +51,7 @@ const Profile = () => {
         onClick={handleClick2}
       >
         <Avatar
-          src={"/images/profile/user-1.jpg"}
+          src={'/images/profile/user-1.jpg'}
           alt={'ProfileImg'}
           sx={{
             width: 35,
@@ -67,7 +79,11 @@ const Profile = () => {
       >
         <Typography variant="h5">User Profile</Typography>
         <Stack direction="row" py={3} spacing={2} alignItems="center">
-        <Avatar src={"/images/profile/user-1.jpg"} alt={"ProfileImg"} sx={{ width: 95, height: 95 }} />
+          <Avatar
+            src={'/images/profile/user-1.jpg'}
+            alt={'ProfileImg'}
+            sx={{ width: 95, height: 95 }}
+          />
           <Box>
             <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
               Mathew Anderson
@@ -99,7 +115,8 @@ const Profile = () => {
                     bgcolor="primary.light"
                     display="flex"
                     alignItems="center"
-                    justifyContent="center" flexShrink="0"
+                    justifyContent="center"
+                    flexShrink="0"
                   >
                     <Avatar
                       src={profile.icon}
@@ -152,10 +169,16 @@ const Profile = () => {
                   Upgrade
                 </Button>
               </Box>
-              <Image src={"/images/backgrounds/unlimited-bg.png"} width={150} height={183} alt="unlimited" className="signup-bg" />
+              <Image
+                src={'/images/backgrounds/unlimited-bg.png'}
+                width={150}
+                height={183}
+                alt="unlimited"
+                className="signup-bg"
+              />
             </Box>
           </Box>
-          <Button href="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button onClick={handleLogOut} variant="outlined" color="primary" fullWidth>
             Logout
           </Button>
         </Box>

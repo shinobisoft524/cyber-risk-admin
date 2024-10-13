@@ -2,7 +2,6 @@ import { type NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function POST(req: NextRequest) {
-  console.log('rea', `${process.env.NEXT_PUBLIC_API_URL}user/login`)
   const reqData = await req.json();
   const resData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/login`, {
     method: 'post',
@@ -15,12 +14,15 @@ export async function POST(req: NextRequest) {
   console.log(res);
   const cookieStore = cookies();
   if (res.statusCode === 200) {
-    cookieStore.set('isLogin', 'true');
-    cookieStore.set('jwt-token', res.data.token);
+    const oneDay = 5 * 60 * 1000; // 24 hrs 24 * 60 * 60 * 1000;
+    cookieStore.set('isLogin', 'true', { maxAge: 60 }); //, { expires: Date.now() - oneDay });
+    cookieStore.set('jwt-token', res.data.token), { maxAge: 60 }; //, { expires: Date.now() - oneDay });
   } else {
     cookieStore.delete('isLogin');
     cookieStore.delete('jwt-token');
   }
+
+  console.log('User login state', cookieStore.get('isLogin'));
 
   return Response.json(res);
 }

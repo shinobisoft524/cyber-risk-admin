@@ -10,14 +10,14 @@ type Props = {
 };
 
 const GuestGuard = ({ children }: Props) => {
-  const isLogin: boolean = useSelector((state: AppState) => state.auth.isLogin);
-  const router = useRouter();
+  // const isLogin: boolean = useSelector((state: AppState) => state.auth.isLogin);
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (isLogin) {
-      router.push('/dashboard');
-    }
-  }, [isLogin, router]);
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     router.push('/dashboard');
+  //   }
+  // }, [isLogin, router]);
 
   return children;
 };

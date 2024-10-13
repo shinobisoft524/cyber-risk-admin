@@ -14,24 +14,34 @@ import CustomTextField from '@/app/components/forms/theme-elements/CustomTextFie
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import AuthSocialButtons from './AuthSocialButtons';
 import { useDispatch } from '@/store/hooks';
-import { login as _login } from '@/actions/auth';
-import { usePathname } from 'next/navigation';
+import { login as _login, expired as _expired } from '@/actions/auth';
+import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const expired = searchParams.get('expired');
   const dispatch = useDispatch();
-  const pathname = usePathname();
-
   const [email, setEmail] = useState<string>('welcome@cyberriskinternational.com');
   const [password, setPassword] = useState<string>('abcdABCD1234!@#$');
   const [showPassword, setShowPassword] = useState(false);
   const _email = useDeferredValue(email);
   const _password = useDeferredValue(email);
 
+  useEffect(() => {
+    if (expired === 'true') {
+      _expired(dispatch);
+    }
+  }, [expired]);
   useEffect(() => {}, [_email, _password]);
 
   const handleLogin = async () => {
     const data = { email, password };
-    _login(data, dispatch);
+    _login(data, dispatch).then((res: any) => {
+      if (res === true) {
+        router.push('/dashboard');
+      }
+    });
   };
 
   return (
