@@ -33,45 +33,37 @@ const Menuitems: MenuitemsType[] = [
     id: uniqueId(),
     title: 'Assessments',
     icon: IconBoxMultiple,
-    href: '/menulevel/',
+    href: '/assessment/',
     children: [
       {
         id: uniqueId(),
         title: 'List',
         icon: IconPoint,
-        href: '/l1',
+        href: '/assessment/list',
       },
       {
         id: uniqueId(),
-        title: 'Level 1.1',
+        title: 'Create',
+        icon: IconPoint,
+        href: '/assessment/create',
+      },
+      {
+        id: uniqueId(),
+        title: 'Assessment 15',
         icon: IconPoint,
         href: '/l1.1',
         children: [
           {
             id: uniqueId(),
-            title: 'Level 2',
+            title: 'View',
             icon: IconPoint,
-            href: '/l2',
+            href: '/assessment/view',
           },
           {
             id: uniqueId(),
-            title: 'Level 2.1',
+            title: 'Edit',
             icon: IconPoint,
-            href: '/l2.1',
-            children: [
-              {
-                id: uniqueId(),
-                title: 'Level 3',
-                icon: IconPoint,
-                href: '/l3',
-              },
-              {
-                id: uniqueId(),
-                title: 'Level 3.1',
-                icon: IconPoint,
-                href: '/l3.1',
-              },
-            ],
+            href: '/l2',
           },
         ],
       },
