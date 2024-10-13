@@ -1,6 +1,3 @@
 [submodule "packages"]
 	path = packages
 	url = https://github.com/shinobisoft524/cyber-risk-common-modules.git
-[submodule ".next"]
-	path = .next
-	url = https://github.com/shinobisoft524/cyberprism-bulid.git
