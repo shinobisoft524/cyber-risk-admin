@@ -4,10 +4,20 @@ import { Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from '@/app/components/forms/theme-elements/CustomTextField';
-import QuillEdit from '@/components/forms/form-quill/QuillEdit';
 import Thumbnail from '@/components/common/Thumbnail';
+import { useDispatch, useSelector } from '@/store/hooks';
+import { AppState } from '@/store/store';
+import { updateCurrentOrganisation } from '@/store/organisation/OrganisationSlice';
 
 const OrganisationDetail = () => {
+  const dispatch = useDispatch();
+
+  const currentOrganisation = useSelector(
+    (state: AppState) => state.organisation.currentOrganisation
+  );
+
+  const name = useSelector((state: AppState) => state.organisation.currentOrganisation?.name);
+
   return (
     <Box p={3}>
       <Typography variant="h5">Organisation Detail</Typography>
@@ -22,10 +32,20 @@ const OrganisationDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField placeholder="Product Name" fullWidth />
-          {/* <Typography variant="body2">
-            A Organisation name is required and recommended to be unique.
-          </Typography> */}
+          <CustomTextField
+            placeholder="Organisation Name"
+            fullWidth
+            defaultValue={name}
+            onChange={(e) => {
+              const value: string = e.target.value;
+              dispatch(
+                updateCurrentOrganisation({
+                  field: 'name',
+                  value: value,
+                })
+              );
+            }}
+          />
         </Grid>
 
         <Grid item mt={2} xs={12} display="flex" alignItems="center">
@@ -46,7 +66,19 @@ const OrganisationDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField placeholder="Product Name" fullWidth />
+          <CustomTextField
+            placeholder="Organisation address"
+            fullWidth
+            onChange={(e) => {
+              const value: string = e.target.value;
+              // dispatch(
+              //   updateCurrentOrganisation({
+              //     field: 'name',
+              //     value: value,
+              //   })
+              // );
+            }}
+          />
         </Grid>
 
         <Grid item mt={2} xs={12} display="flex" alignItems="center">
@@ -58,7 +90,7 @@ const OrganisationDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField placeholder="Product Name" fullWidth />
+          <CustomTextField placeholder="Organisation Name" fullWidth />
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
@@ -69,7 +101,7 @@ const OrganisationDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField placeholder="Product Name" fullWidth />
+          <CustomTextField placeholder="Organisation Name" fullWidth />
         </Grid>
       </Grid>
     </Box>

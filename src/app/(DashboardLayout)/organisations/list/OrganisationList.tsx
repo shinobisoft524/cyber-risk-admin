@@ -1,7 +1,7 @@
 'use client';
+
 import * as React from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
-import { format } from 'date-fns';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -32,8 +32,11 @@ import {
   IconSearch,
   IconTrash,
 } from '@tabler/icons-react';
-import { IAssessment } from '@/cmodels';
+import { IAssessment, Organisation } from '@/cmodels';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { getOrganisationListAction } from '@/actions/orgnisation.action';
+import { AppState } from '@/store/store';
+import { useRouter } from 'next/navigation';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -80,29 +83,23 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'entity',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Entity',
-  },
-  {
-    id: 'scope',
-    numeric: false,
-    disablePadding: false,
-    label: 'Scope',
+    label: 'Name',
   },
 
   {
-    id: 'assessor',
+    id: 'owner',
     numeric: false,
     disablePadding: false,
-    label: 'Assessor',
+    label: 'Owner',
   },
   {
-    id: 'completion',
+    id: 'status',
     numeric: false,
     disablePadding: false,
-    label: 'Completion',
+    label: 'Status',
   },
   {
     id: 'action',
@@ -225,79 +222,56 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const AssessmentList = () => {
+const OrganisationList = () => {
+  const router = useRouter();
+  const list = useSelector((state: AppState) => state.organisation.list);
+
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<any>('calories');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [search, setSearch] = useState('');
+  const [rows, setRows] = useState<Organisation[]>([]);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [dispatch]);
-
-  const getProducts: IAssessment[] = [
-    {
-      entity: 'abc',
-      scope: 'bb',
-      assessor: 'bb',
-      completion: 15.5,
-    },
-    {
-      entity: 'abc',
-      scope: 'bb',
-      assessor: 'bb',
-      completion: 15.5,
-    },
-    {
-      entity: 'abc',
-      scope: 'bb',
-      assessor: 'bb',
-      completion: 15.5,
-    },
-    {
-      entity: 'abc',
-      scope: 'bb',
-      assessor: 'bb',
-      completion: 15.5,
-    },
-  ];
-
-  const [rows, setRows] = useState<any>(getProducts);
-  const [search, setSearch] = useState('');
+  useEffect(() => {
+    getOrganisations();
+  }, []);
 
   useEffect(() => {
-    setRows(getProducts);
-  }, [getProducts]);
+    setRows(list as any);
+  }, [list]);
+
+  const getOrganisations = () => {
+    getOrganisationListAction(null as any, dispatch);
+  };
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    const filteredRows: IAssessment[] = getProducts.filter((row) => {
-      return row.entity.toLowerCase().includes(event.target.value);
+    const filteredRows: Organisation[] = list.filter((row) => {
+      return row.name.toLowerCase().includes(event.target.value);
     });
     setSearch(event.target.value);
     setRows(filteredRows);
   };
 
-  // This is for the sorting
   const handleRequestSort = (event: any, property: any) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
-  // This is for select all the row
   const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n: any) => n.title);
       setSelected(newSelecteds);
-
       return;
     }
     setSelected([]);
   };
 
-  // This is for the single row sleect
   const handleClick = (event: any, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
@@ -333,7 +307,6 @@ const AssessmentList = () => {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const theme = useTheme();
@@ -347,6 +320,7 @@ const AssessmentList = () => {
           search={search}
           handleSearch={(event: any) => handleSearch(event)}
         />
+
         <Paper variant="outlined" sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}>
           <TableContainer>
             <Table
@@ -363,7 +337,7 @@ const AssessmentList = () => {
                 rowCount={rows.length}
               />
               <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
+                {stableSort(rows as any, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row: any, index) => {
                     const isItemSelected = isSelected(row.title);
@@ -372,15 +346,16 @@ const AssessmentList = () => {
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.title)}
+                        // onClick={(event) => handleClick(event, row.title)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={index.toString()}
+                        key={row.id.toString()}
                         selected={isItemSelected}
                       >
                         <TableCell padding="checkbox">
                           <CustomCheckbox
+                            onClick={(event) => handleClick(event, row.title)}
                             color="primary"
                             checked={isItemSelected}
                             inputProps={{
@@ -398,23 +373,23 @@ const AssessmentList = () => {
                               }}
                             >
                               <Typography variant="h6" fontWeight="600">
-                                {row.entity}
+                                {row.name}
                               </Typography>
                               <Typography color="textSecondary" variant="subtitle2">
-                                {row.entity}
+                                {row.name}
                               </Typography>
                             </Box>
                           </Box>
                         </TableCell>
                         <TableCell>
-                          <Typography>{row.scope}</Typography>
+                          <Typography>{row.Owner?.name}</Typography>
                         </TableCell>
 
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Box
                               sx={{
-                                backgroundColor: row.stock
+                                backgroundColor: row.isActive
                                   ? (theme) => theme.palette.success.main
                                   : (theme) => theme.palette.error.main,
                                 borderRadius: '100%',
@@ -429,12 +404,9 @@ const AssessmentList = () => {
                                 ml: 1,
                               }}
                             >
-                              {row.assessor ? 'InStock' : 'Out of Stock'}
+                              {row.isActive ? 'Actived' : 'Inactived'}
                             </Typography>
                           </Box>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{row.completion}</Typography>
                         </TableCell>
 
                         <TableCell align="center">
@@ -444,7 +416,10 @@ const AssessmentList = () => {
                             </IconButton>
                           </Tooltip>
                           <Tooltip title="Edit Assssment">
-                            <IconButton color="success">
+                            <IconButton
+                              onClick={() => router.push(`/organisations/detail?id=${row.id}`)}
+                              color="success"
+                            >
                               <IconEdit width={22} />
                             </IconButton>
                           </Tooltip>
@@ -490,4 +465,4 @@ const AssessmentList = () => {
   );
 };
 
-export default AssessmentList;
+export default OrganisationList;

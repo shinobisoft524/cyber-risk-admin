@@ -746,6 +746,11 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
+"@prisma/client@^5.21.0":
+  version "5.21.0"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.21.0.tgz#778c18964f2da113b78b5cc7ea5c274e3a3607df"
+  integrity sha512-Qf2YleB3dsCRXiKSQZ+j0aF5E+ojpfqF8ExXaNAWBbAhKapMduwNvgo13K2pEuTiQq8voG2aQPQnxjsO9fOpTQ==
+
 "@react-spring/animated@~9.7.5":
   version "9.7.5"
   resolved "https://registry.yarnpkg.com/@react-spring/animated/-/animated-9.7.5.tgz#eb0373aaf99b879736b380c2829312dae3b05f28"
