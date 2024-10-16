@@ -31,41 +31,21 @@ const Menuitems: MenuitemsType[] = [
   },
   {
     id: uniqueId(),
-    title: 'Assessments',
+    title: 'Organisations',
     icon: IconBoxMultiple,
-    href: '/assessment/',
+    href: '/organisations/',
     children: [
       {
         id: uniqueId(),
         title: 'List',
         icon: IconPoint,
-        href: '/assessment/list',
+        href: '/organisations/list',
       },
       {
         id: uniqueId(),
-        title: 'Create',
+        title: 'Detail',
         icon: IconPoint,
-        href: '/assessment/create',
-      },
-      {
-        id: uniqueId(),
-        title: 'Assessment 15',
-        icon: IconPoint,
-        href: '/l1.1',
-        children: [
-          {
-            id: uniqueId(),
-            title: 'View',
-            icon: IconPoint,
-            href: '/assessment/view',
-          },
-          {
-            id: uniqueId(),
-            title: 'Edit',
-            icon: IconPoint,
-            href: '/l2',
-          },
-        ],
+        href: '/organisations/detail',
       },
     ],
   },

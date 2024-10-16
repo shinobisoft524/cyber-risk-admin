@@ -4,45 +4,17 @@ import { Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from '@/app/components/forms/theme-elements/CustomTextField';
-import QuillEdit from '@/components/forms/form-quill/QuillEdit';
-import Thumbnail from '@/components/common/Thumbnail';
+import TransferList from '@/components/common/TransferList';
 
-const OrganisationDetail = () => {
+const OwnerDetail = () => {
   return (
     <Box p={3}>
-      <Typography variant="h5">Organisation Detail</Typography>
+      <Typography variant="h5">Owner Details</Typography>
 
       <Grid container mt={3}>
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
-            &nbsp;Organisation Name{' '}
-            <Typography color="error.main" component="span">
-              *
-            </Typography>
-          </CustomFormLabel>
-        </Grid>
-        <Grid item xs={12}>
-          <CustomTextField placeholder="Product Name" fullWidth />
-          {/* <Typography variant="body2">
-            A Organisation name is required and recommended to be unique.
-          </Typography> */}
-        </Grid>
-
-        <Grid item mt={2} xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
-            &nbsp;Organisation Logo{' '}
-            <Typography color="error.main" component="span">
-              *
-            </Typography>
-          </CustomFormLabel>
-        </Grid>
-        <Grid item xs={12} display="flex" alignItems="center">
-          <Thumbnail />
-        </Grid>
-
-        <Grid item mt={2} xs={12} display="flex" alignItems="center">
-          <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
-            &nbsp;Address{' '}
+            &nbsp;Owner Name{' '}
             <Typography color="error.main" component="span">
               *
             </Typography>
@@ -54,7 +26,7 @@ const OrganisationDetail = () => {
 
         <Grid item mt={2} xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
-            &nbsp;Latitude{' '}
+            &nbsp;Owner Title{' '}
             <Typography color="error.main" component="span">
               *
             </Typography>
@@ -63,9 +35,10 @@ const OrganisationDetail = () => {
         <Grid item xs={12}>
           <CustomTextField placeholder="Product Name" fullWidth />
         </Grid>
-        <Grid item xs={12} display="flex" alignItems="center">
+
+        <Grid item mt={2} xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
-            &nbsp;Longitude{' '}
+            &nbsp;Owner email{' '}
             <Typography color="error.main" component="span">
               *
             </Typography>
@@ -79,4 +52,4 @@ const OrganisationDetail = () => {
   );
 };
 
-export default OrganisationDetail;
+export default OwnerDetail;

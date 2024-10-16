@@ -7,15 +7,15 @@ import CustomTextField from '@/app/components/forms/theme-elements/CustomTextFie
 import QuillEdit from '@/components/forms/form-quill/QuillEdit';
 import Thumbnail from '@/components/common/Thumbnail';
 
-const ScopeDetail = () => {
+const NoteDetail = () => {
   return (
     <Box p={3}>
-      <Typography variant="h5">Scope Detail</Typography>
+      <Typography variant="h5">Administrator Notes</Typography>
 
       <Grid container mt={3}>
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
-            &nbsp;Scope of Audit
+            &nbsp;Description
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
@@ -29,4 +29,4 @@ const ScopeDetail = () => {
   );
 };
 
-export default ScopeDetail;
+export default NoteDetail;

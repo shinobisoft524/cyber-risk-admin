@@ -5,24 +5,25 @@ import PageContainer from '@/components/container/PageContainer';
 import BlankCard from '@/components/shared/BlankCard';
 import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import { Button, Grid, Stack } from '@mui/material';
-import OrganisationDetail from '@/components/assessment/OrganisationDetail';
-import ScopeDetail from '@/app/components/assessment/ScopeDetail';
-import TeamDetail from '@/app/components/assessment/TeamDetail';
+import OrganisationDetail from '@/app/components/organisation/OrganisationDetail';
+import NoteDetail from '@/app/components/organisation/NoteDetail';
+import OwnerDetail from '@/app/components/organisation/OwnerDetail';
+import AdminAction from '@/app/components/organisation/AdminAction';
 
 const BCrumb = [
   {
     to: '/list',
-    title: 'Assessment',
+    title: 'Organisation',
   },
   {
-    title: 'Create',
+    title: 'Detail',
   },
 ];
 
 export default function AssessmentCreatePage() {
   return (
-    <PageContainer title="Assessment List Page" description="This is an assessment list page">
-      <Breadcrumb title="Create Assessment" items={BCrumb} />
+    <PageContainer title="Organisation List Page" description="This is an organisation list page">
+      <Breadcrumb title="Create Organisation" items={BCrumb} />
 
       <Grid container spacing={3}>
         <Grid item lg={6}>
@@ -31,17 +32,23 @@ export default function AssessmentCreatePage() {
               <OrganisationDetail />
             </BlankCard>
           </Stack>
-          <Stack mt={3} spacing={3}>
-            <BlankCard>
-              <ScopeDetail />
-            </BlankCard>
-          </Stack>
         </Grid>
-
         <Grid item lg={6}>
           <Stack spacing={3}>
             <BlankCard>
-              <TeamDetail />
+              <OwnerDetail />
+            </BlankCard>
+          </Stack>
+          <Stack mt={3} spacing={3}>
+            <BlankCard>
+              <NoteDetail />
+            </BlankCard>
+          </Stack>
+        </Grid>
+        <Grid item lg={12}>
+          <Stack mt={3} spacing={3}>
+            <BlankCard>
+              <AdminAction />
             </BlankCard>
           </Stack>
         </Grid>

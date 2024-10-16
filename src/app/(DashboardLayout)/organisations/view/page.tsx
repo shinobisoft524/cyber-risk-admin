@@ -5,9 +5,9 @@ import PageContainer from '@/components/container/PageContainer';
 import BlankCard from '@/components/shared/BlankCard';
 import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import { Button, Grid, Stack } from '@mui/material';
-import OrganisationDetail from '@/components/assessment/OrganisationDetail';
-import ScopeDetail from '@/app/components/assessment/ScopeDetail';
-import TeamDetail from '@/app/components/assessment/TeamDetail';
+import OrganisationDetail from '@/app/components/organisation/OrganisationDetail';
+import NoteDetail from '@/app/components/organisation/NoteDetail';
+import TeamDetail from '@/app/components/organisation/OwnerDetail';
 import AssessmentView from './main';
 
 const BCrumb = [
