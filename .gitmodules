@@ -1,0 +1,9 @@
+[submodule "packages/validations"]
+	path = packages/validations
+	url = https://github.com/shinobisoft524/cyber-risk-common-validations.git
+[submodule "packages/models"]
+	path = packages/models
+	url = https://github.com/shinobisoft524/cyber-risk-common-models.git
+[submodule "packages/modules"]
+	path = packages/modules
+	url = https://github.com/shinobisoft524/cyber-risk-common-modules.git
