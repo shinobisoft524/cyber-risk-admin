@@ -51,7 +51,7 @@ const TablePagination = () => {
           </Stack>
           <Stack direction="row" alignItems="center" gap={1}>
             | Go to page:
-            <CustomTextField type="number" min="1" max={3} defaultValue={1} />
+            <CustomTextField type="number" inputProps={{}} defaultValue={1} />
           </Stack>
           <CustomSelect value={16}>
             {[10, 15, 20, 25].map((pageSize) => (
