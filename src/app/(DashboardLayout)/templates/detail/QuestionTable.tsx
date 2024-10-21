@@ -87,7 +87,7 @@ const rows = [
   createData('Frozen yoghurt'),
 ];
 
-export default function CollapsibleTable() {
+export default function QuestionTable() {
   const [rows, setRows] = useState<IQuestion[]>([]);
   const handleFile: any = (event: { target: { files: any[] } }) => {
     const file = event.target.files[0];

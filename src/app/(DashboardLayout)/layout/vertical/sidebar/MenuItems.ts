@@ -51,21 +51,33 @@ const Menuitems: MenuitemsType[] = [
   },
   {
     id: uniqueId(),
-    title: 'Assessments',
+    title: 'Templates',
     icon: IconBoxMultiple,
-    href: '/assessments/',
+    href: '/templates/',
     children: [
       {
         id: uniqueId(),
         title: 'List',
         icon: IconPoint,
-        href: '/assessments/list',
+        href: '/templates/list',
+      },
+      {
+        id: uniqueId(),
+        title: 'New',
+        icon: IconPoint,
+        href: '/templates/new',
+      },
+      {
+        id: uniqueId(),
+        title: 'Stage',
+        icon: IconPoint,
+        href: '/templates/stage',
       },
       {
         id: uniqueId(),
         title: 'Detail',
         icon: IconPoint,
-        href: '/assessments/detail',
+        href: '/templates/detail',
       },
     ],
   },

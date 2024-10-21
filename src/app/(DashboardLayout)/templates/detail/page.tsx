@@ -4,34 +4,28 @@ import PageContainer from '@/components/container/PageContainer';
 import BlankCard from '@/components/shared/BlankCard';
 import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import { Button, Grid, Stack } from '@mui/material';
-import OrganisationDetail from '@/app/components/organisation/OrganisationDetail';
-import NoteDetail from '@/app/components/organisation/NoteDetail';
-import OwnerDetail from '@/app/components/organisation/OwnerDetail';
-import AdminAction from '@/app/components/organisation/AdminAction';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/store/store';
 import { useEffect } from 'react';
 import { useDispatch } from '@/store/hooks';
-import { initOrganisation, setCurrentOrganisation } from '@/store/organisation/OrganisationSlice';
-import {
-  createOrganisationAction,
-  getOrganisationDetailAction,
-} from '@/actions/orgnisation.action';
+import { initOrganisation } from '@/store/organisation/OrganisationSlice';
+import { getOrganisationDetailAction } from '@/actions/orgnisation.action';
 import { useRouter, useSearchParams } from 'next/navigation';
 import readXlsxFile from 'read-excel-file';
-import CollapsibleTable from './TableExpanding';
+import { createTemplatAction } from '@/actions/template.action';
+import QuestionTable from './QuestionTable';
 
 const BCrumb = [
   {
     to: '/list',
-    title: 'Organisation',
+    title: 'Teamplate',
   },
   {
     title: 'Detail',
   },
 ];
 
-export default function OrganisationDetailPage() {
+export default function Page() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
@@ -62,9 +56,9 @@ export default function OrganisationDetailPage() {
 
   const handleSave = () => {
     if (currentOrganisation) {
-      createOrganisationAction(currentOrganisation, dispatch).then((res: any) => {
+      createTemplatAction(currentOrganisation, dispatch).then((res: any) => {
         if (res === true) {
-          router.push('/organisation/list');
+          // router.push('/assessment/templateCreate');
         }
       });
     }
@@ -80,17 +74,14 @@ export default function OrganisationDetailPage() {
   };
 
   return (
-    <PageContainer
-      title="Organisation Detail Page"
-      description="This is an organisation detail page"
-    >
-      <Breadcrumb title="Create Organisation" items={BCrumb} />
+    <PageContainer title="Template Detail Page" description="This is a template detail page">
+      <Breadcrumb title="Create Template" items={BCrumb} />
 
       <Grid container spacing={3}>
         {/* <input type="file" onChange={handleFile} /> */}
 
         <BlankCard>
-          <CollapsibleTable />
+          <QuestionTable />
         </BlankCard>
       </Grid>
 

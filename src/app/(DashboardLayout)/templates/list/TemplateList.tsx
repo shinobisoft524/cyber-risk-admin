@@ -222,7 +222,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const OrganisationList = () => {
+const TemplateList = () => {
   const router = useRouter();
   const list = useSelector((state: AppState) => state.organisation.list);
 
@@ -465,4 +465,4 @@ const OrganisationList = () => {
   );
 };
 
-export default OrganisationList;
+export default TemplateList;
