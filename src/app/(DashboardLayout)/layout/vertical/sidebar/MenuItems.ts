@@ -49,6 +49,26 @@ const Menuitems: MenuitemsType[] = [
       },
     ],
   },
+  {
+    id: uniqueId(),
+    title: 'Assessments',
+    icon: IconBoxMultiple,
+    href: '/assessments/',
+    children: [
+      {
+        id: uniqueId(),
+        title: 'List',
+        icon: IconPoint,
+        href: '/assessments/list',
+      },
+      {
+        id: uniqueId(),
+        title: 'Detail',
+        icon: IconPoint,
+        href: '/assessments/detail',
+      },
+    ],
+  },
 ];
 
 export default Menuitems;

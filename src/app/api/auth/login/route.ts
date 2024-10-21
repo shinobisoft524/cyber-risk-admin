@@ -17,8 +17,8 @@ export async function POST(req: NextRequest) {
   const cookieStore = cookies();
   if (res.statusCode === 200) {
     const oneDay = 5 * 60 * 1000; // 24 hrs 24 * 60 * 60 * 1000;
-    cookieStore.set('isLogin', 'true', { maxAge: 60 }); //, { expires: Date.now() - oneDay });
-    cookieStore.set('jwt-token', res.data.token), { maxAge: 60 }; //, { expires: Date.now() - oneDay });
+    cookieStore.set('isLogin', 'true', { maxAge: 60 * 60 }); //, { expires: Date.now() - oneDay });
+    cookieStore.set('jwt-token', res.data.token), { maxAge: 60 * 60 }; //, { expires: Date.now() - oneDay });
   } else {
     cookieStore.delete('isLogin');
     cookieStore.delete('jwt-token');
