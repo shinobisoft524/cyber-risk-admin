@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,27 +20,13 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/components/*": [
-        "./src/app/components/*"
-      ],
-      "@/actions/*": [
-        "./src/actions/*"
-      ],
-      "@/apis/*": [
-        "./src/apis/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/cmodels": [
-        "./packages/common_models/index.ts"
-      ],
-      "@/cmodules/*": [
-        "./packages/modules/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/app/components/*"],
+      "@/actions/*": ["./src/actions/*"],
+      "@/apis/*": ["./src/apis/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/cmodels": ["./packages/models/index.ts"],
+      "@/cvalidations": ["./packages/validations/index.ts"]
     }
   },
   "include": [
@@ -54,7 +36,5 @@
     ".next/types/**/*.ts",
     ".next/build/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

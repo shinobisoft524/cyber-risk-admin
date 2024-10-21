@@ -86,6 +86,6 @@
     "eslint-config-next": "latest"
   },
   "workspaces": [
-    "packages/modules/*"
+    "packages/**/*"
   ]
 }

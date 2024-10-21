@@ -1,4 +1,4 @@
-import { RegisterSchema, SigninSchema } from '@/cmodules/validations';
+import { RegisterSchema, SigninSchema } from '@/cvalidations';
 import { login as _login, register as _register, logout as _logout } from '@/apis/auth.api';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { setUser } from '@/store/auth/AuthSlice';
