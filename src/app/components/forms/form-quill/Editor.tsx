@@ -8,7 +8,8 @@ import QuillEdit from './QuillEdit';
 const Editor = () => {
   return (
     <ParentCard title="Quill Editor">
-      <QuillEdit />
+      <></>
+      {/* <QuillEdit /> */}
     </ParentCard>
   );
 };
