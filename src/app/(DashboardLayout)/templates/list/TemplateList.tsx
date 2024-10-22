@@ -24,19 +24,12 @@ import { visuallyHidden } from '@mui/utils';
 import { useSelector, useDispatch } from '@/store/hooks';
 import CustomCheckbox from '@/components/forms/theme-elements/CustomCheckbox';
 import CustomSwitch from '@/components/forms/theme-elements/CustomSwitch';
-import {
-  IconEdit,
-  IconEye,
-  IconDotsVertical,
-  IconFilter,
-  IconSearch,
-  IconTrash,
-} from '@tabler/icons-react';
-import { IAssessment, Organisation } from '@/cmodels';
+import { IconEdit, IconEye, IconFilter, IconSearch, IconTrash } from '@tabler/icons-react';
+import { Organisation } from '@/cmodels';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { getOrganisationListAction } from '@/actions/orgnisation.action';
 import { AppState } from '@/store/store';
 import { useRouter } from 'next/navigation';
+import { getTemplateListAction } from '@/actions/template.action';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -238,15 +231,26 @@ const TemplateList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getOrganisations();
+    getTemplateList();
   }, []);
 
   useEffect(() => {
     setRows(list as any);
   }, [list]);
 
-  const getOrganisations = () => {
-    getOrganisationListAction(null as any, dispatch);
+  const getTemplateList = () => {
+    getTemplateListAction(
+      {
+        user: null as any,
+        info: {
+          organisationId: null,
+          value: null,
+        } as any,
+      },
+      dispatch
+    ).then((res: any) => {
+      setRows(res);
+    });
   };
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -417,7 +421,7 @@ const TemplateList = () => {
                           </Tooltip>
                           <Tooltip title="Edit Assssment">
                             <IconButton
-                              onClick={() => router.push(`/organisations/detail?id=${row.id}`)}
+                              onClick={() => router.push(`/templates/detail?id=${row.id}`)}
                               color="success"
                             >
                               <IconEdit width={22} />

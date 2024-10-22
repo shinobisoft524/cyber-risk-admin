@@ -4,85 +4,108 @@ import PageContainer from '@/components/container/PageContainer';
 import BlankCard from '@/components/shared/BlankCard';
 import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import { Button, Grid, Stack } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { AppState } from '@/store/store';
-import { useEffect } from 'react';
+import AdminAction from '@/app/components/organisation/AdminAction';
+import { useEffect, useState } from 'react';
 import { useDispatch } from '@/store/hooks';
-import { initOrganisation } from '@/store/organisation/OrganisationSlice';
-import { getOrganisationDetailAction } from '@/actions/orgnisation.action';
 import { useRouter, useSearchParams } from 'next/navigation';
-import readXlsxFile from 'read-excel-file';
-import { createTemplatAction } from '@/actions/template.action';
-import QuestionTable from './QuestionTable';
+import TemplateDetail from './templateDetail';
+import { createTemplatAction, getTemplateDetailAction } from '@/actions/template.action';
+import Link from 'next/link';
 
 const BCrumb = [
   {
     to: '/list',
-    title: 'Teamplate',
+    title: 'Template',
   },
   {
     title: 'Detail',
   },
 ];
 
-export default function Page() {
+export default function TemplateDetailPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
   const dispatch = useDispatch();
   const router = useRouter();
-  const list = useSelector((state: AppState) => state.organisation.list);
-  const currentOrganisation = useSelector(
-    (state: AppState) => state.organisation.currentOrganisation
-  );
+
+  const [name, setName] = useState<string>('');
+
+  const [stages, setStages] = useState<string[]>([]);
 
   useEffect(() => {
-    !id && dispatch(initOrganisation());
-    return () => {
-      !id && dispatch(initOrganisation());
-    };
-  }, []);
-
-  useEffect(() => {
-    id && getOrganisation(Number(id));
-    return () => {
-      id && dispatch(initOrganisation());
-    };
+    if (id) {
+      getTemplate();
+    } else {
+    }
   }, [id]);
 
-  const getOrganisation = (id: number) => {
-    getOrganisationDetailAction({ id }, dispatch);
+  const getTemplate = () => {
+    getTemplateDetailAction(
+      {
+        user: null as any,
+        info: {
+          organisationId: null,
+          value: { id: id },
+        } as any,
+      },
+      dispatch
+    ).then((res: any) => {
+      // setRows(res);
+      setName(res.name);
+      if (res.TemplateStage && res.TemplateStage.length) {
+        setStages(res.TemplateStage.length);
+      }
+    });
+  };
+
+  const handleUpdate = (value: string) => {
+    setName(value);
   };
 
   const handleSave = () => {
-    if (currentOrganisation) {
-      createTemplatAction(currentOrganisation, dispatch).then((res: any) => {
-        if (res === true) {
-          // router.push('/assessment/templateCreate');
+    if (name) {
+      createTemplatAction(
+        {
+          type: id ? 'update' : 'new',
+          user: null as any,
+          info: {
+            value: {
+              id: id as any,
+              name: name,
+            },
+          },
+        },
+        dispatch
+      ).then((res: any) => {
+        if (!id) {
+          router.push(`/templates/detail?id=${res.id}`);
+        } else {
+          getTemplate();
         }
       });
     }
   };
 
-  const handleFile: any = (event: { target: { files: any[] } }) => {
-    const file = event.target.files[0];
-
-    // Parse the uploaded Excel file
-    readXlsxFile(file).then((rows) => {
-      console.log(rows);
-    });
-  };
-
   return (
-    <PageContainer title="Template Detail Page" description="This is a template detail page">
+    <PageContainer title="Template Detail Page" description="This is an organisation detail page">
       <Breadcrumb title="Create Template" items={BCrumb} />
 
       <Grid container spacing={3}>
-        {/* <input type="file" onChange={handleFile} /> */}
-
-        <BlankCard>
-          <QuestionTable />
-        </BlankCard>
+        <Grid item lg={6}>
+          <Stack spacing={3}>
+            <BlankCard>
+              <TemplateDetail template={{ name: name }} handleUpdate={handleUpdate} />
+            </BlankCard>
+          </Stack>
+        </Grid>
+        <Grid item lg={6}>
+          <Stack mt={3} spacing={3}>
+            <BlankCard>
+              <AdminAction />
+            </BlankCard>
+          </Stack>
+        </Grid>
       </Grid>
 
       <Stack direction="row" spacing={2} mt={3}>
@@ -93,6 +116,21 @@ export default function Page() {
           Cancel
         </Button>
       </Stack>
+
+      {stages && (
+        <Grid container mt={6} spacing={3}>
+          <Grid item lg={6}>
+            <Stack spacing={3}>
+              <BlankCard>
+                <Link href={`/templates/stage?id=1&templateId=${id}`}>Stage 1</Link>
+              </BlankCard>
+              <BlankCard>
+                <Link href={`/templates/stage?id=1&templateId=${id}`}>Stage 2</Link>
+              </BlankCard>
+            </Stack>
+          </Grid>
+        </Grid>
+      )}
     </PageContainer>
   );
 }

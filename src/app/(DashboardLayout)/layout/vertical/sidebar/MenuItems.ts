@@ -63,21 +63,15 @@ const Menuitems: MenuitemsType[] = [
       },
       {
         id: uniqueId(),
-        title: 'New',
+        title: 'Detail',
         icon: IconPoint,
-        href: '/templates/new',
+        href: '/templates/detail',
       },
       {
         id: uniqueId(),
         title: 'Stage',
         icon: IconPoint,
         href: '/templates/stage',
-      },
-      {
-        id: uniqueId(),
-        title: 'Detail',
-        icon: IconPoint,
-        href: '/templates/detail',
       },
     ],
   },

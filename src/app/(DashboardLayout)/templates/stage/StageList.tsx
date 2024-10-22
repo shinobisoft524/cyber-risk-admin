@@ -36,7 +36,7 @@ import { IAssessment, Organisation } from '@/cmodels';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getOrganisationListAction } from '@/actions/orgnisation.action';
 import { AppState } from '@/store/store';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -87,19 +87,6 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Name',
-  },
-
-  {
-    id: 'owner',
-    numeric: false,
-    disablePadding: false,
-    label: 'Owner',
-  },
-  {
-    id: 'status',
-    numeric: false,
-    disablePadding: false,
-    label: 'Status',
   },
   {
     id: 'action',
@@ -222,9 +209,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-const StageList = () => {
+const StageList = (props: { list: any[] }) => {
+  const { list } = props;
   const router = useRouter();
-  const list = useSelector((state: AppState) => state.organisation.list);
 
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<any>('calories');
@@ -238,7 +225,7 @@ const StageList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getOrganisations();
+    // getOrganisations();
   }, []);
 
   useEffect(() => {
@@ -350,7 +337,7 @@ const StageList = () => {
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.id.toString()}
+                        key={index.toString()}
                         selected={isItemSelected}
                       >
                         <TableCell padding="checkbox">
@@ -373,7 +360,7 @@ const StageList = () => {
                               }}
                             >
                               <Typography variant="h6" fontWeight="600">
-                                {row.name}
+                                {row.question}
                               </Typography>
                               <Typography color="textSecondary" variant="subtitle2">
                                 {row.name}
@@ -381,40 +368,8 @@ const StageList = () => {
                             </Box>
                           </Box>
                         </TableCell>
-                        <TableCell>
-                          <Typography>{row.Owner?.name}</Typography>
-                        </TableCell>
-
-                        <TableCell>
-                          <Box display="flex" alignItems="center">
-                            <Box
-                              sx={{
-                                backgroundColor: row.isActive
-                                  ? (theme) => theme.palette.success.main
-                                  : (theme) => theme.palette.error.main,
-                                borderRadius: '100%',
-                                height: '10px',
-                                width: '10px',
-                              }}
-                            />
-                            <Typography
-                              color="textSecondary"
-                              variant="subtitle2"
-                              sx={{
-                                ml: 1,
-                              }}
-                            >
-                              {row.isActive ? 'Actived' : 'Inactived'}
-                            </Typography>
-                          </Box>
-                        </TableCell>
 
                         <TableCell align="center">
-                          <Tooltip title="View Assssment">
-                            <IconButton color="primary">
-                              <IconEye width={22} />
-                            </IconButton>
-                          </Tooltip>
                           <Tooltip title="Edit Assssment">
                             <IconButton
                               onClick={() => router.push(`/organisations/detail?id=${row.id}`)}
