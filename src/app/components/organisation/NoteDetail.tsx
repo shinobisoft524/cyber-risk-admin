@@ -19,7 +19,8 @@ const NoteDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <QuillEdit />
+          <></>
+          {/* <QuillEdit /> */}
           {/* <Typography variant="body2">
             Set a description to the product for better visibility.
           </Typography> */}
