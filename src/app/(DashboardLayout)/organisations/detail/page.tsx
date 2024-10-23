@@ -17,6 +17,7 @@ import {
   getOrganisationDetailAction,
 } from '@/actions/orgnisation.action';
 import { useRouter, useSearchParams } from 'next/navigation';
+import TemplateAssignList from './component';
 
 const BCrumb = [
   {
@@ -101,6 +102,13 @@ export default function Page() {
           <Stack mt={3} spacing={3}>
             <BlankCard>
               <AdminAction />
+            </BlankCard>
+          </Stack>
+        </Grid>
+        <Grid item lg={12}>
+          <Stack mt={3} spacing={3}>
+            <BlankCard>
+              <TemplateAssignList />
             </BlankCard>
           </Stack>
         </Grid>

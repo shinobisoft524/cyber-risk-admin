@@ -242,11 +242,7 @@ const TemplateList = () => {
   const getTemplateList = () => {
     getTemplateListAction(
       {
-        user: null as any,
-        info: {
-          organisationId: null,
-          value: null,
-        } as any,
+        info: {},
       },
       dispatch
     ).then((res: any) => {
@@ -381,7 +377,7 @@ const TemplateList = () => {
                                 {row.name}
                               </Typography>
                               <Typography color="textSecondary" variant="subtitle2">
-                                {row.name}
+                                {row.TemplateStage && row.TemplateStage.length && '2 Stages'}
                               </Typography>
                             </Box>
                           </Box>
@@ -414,13 +410,13 @@ const TemplateList = () => {
                           </Box>
                         </TableCell>
 
-                        <TableCell align="center">
-                          <Tooltip title="View Assssment">
+                        <TableCell align="left">
+                          <Tooltip title="View Stage">
                             <IconButton color="primary">
                               <IconEye width={22} />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Edit Assssment">
+                          <Tooltip title="Edit template">
                             <IconButton
                               onClick={() => router.push(`/templates/detail?id=${row.id}`)}
                               color="success"
@@ -428,11 +424,11 @@ const TemplateList = () => {
                               <IconEdit width={22} />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Delete Assssment">
+                          {/* <Tooltip title="Delete Assssment">
                             <IconButton color="error">
                               <IconTrash width={22} />
                             </IconButton>
-                          </Tooltip>
+                          </Tooltip> */}
                         </TableCell>
                       </TableRow>
                     );

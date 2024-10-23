@@ -6,134 +6,63 @@ import {
   getTemplateDetailApi,
   getTemplateListApi,
 } from '@/apis/template.api';
-import { User } from '@/cmodels';
+import {
+  IStandardReq,
+  ITemplateCreateReq,
+  ITemplateDetailReq,
+  ITemplateListReq,
+  User,
+} from '@/cmodels';
 
 export async function createTemplatAction(
-  reqData: {
-    type: string;
-    user: User;
-    info: {
-      value: {
-        id?: string;
-        name: string;
-      };
-    };
-  },
+  reqData: IStandardReq<ITemplateCreateReq>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createTemplateApi(reqData).then((res: any) => {
-    return res.data;
-    //   if (res.statusCode === 200 && !!res.data) {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: true,
-    //         user: res.data,
-    //       })
-    //     );
-    //     return true;
-    //   } else {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: false,
-    //         user: null,
-    //       })
-    //     );
-    //     return false;
-    //   }
-    // })
-    // .catch((res: any) => {
-    //   _dispatch(
-    //     setUser({
-    //       isLogin: false,
-    //       user: null,
-    //     })
-    //   );
-    //   return false;
-  });
+  return createTemplateApi(reqData)
+    .then((res: any) => {
+      if (res.statusCode === 200 && !!res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    })
+    .catch(() => {
+      return false;
+    });
 }
 
 export async function getTemplateListAction(
-  reqData: {
-    user: User;
-    info: {
-      value: {
-        name: string;
-      };
-    };
-  },
+  reqData: IStandardReq<ITemplateListReq>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getTemplateListApi(reqData).then((res: any) => {
-    return res.data;
-    //   if (res.statusCode === 200 && !!res.data) {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: true,
-    //         user: res.data,
-    //       })
-    //     );
-    //     return true;
-    //   } else {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: false,
-    //         user: null,
-    //       })
-    //     );
-    //     return false;
-    //   }
-    // })
-    // .catch((res: any) => {
-    //   _dispatch(
-    //     setUser({
-    //       isLogin: false,
-    //       user: null,
-    //     })
-    //   );
-    //   return false;
-  });
+  return getTemplateListApi(reqData)
+    .then((res: any) => {
+      if (res.statusCode === 200 && !!res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    })
+    .catch((res: any) => {
+      return false;
+    });
 }
 
 export async function getTemplateDetailAction(
-  reqData: {
-    user: User;
-    info: {
-      value: {
-        name: string;
-      };
-    };
-  },
+  reqData: IStandardReq<ITemplateDetailReq>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getTemplateDetailApi(reqData).then((res: any) => {
-    return res.data;
-    //   if (res.statusCode === 200 && !!res.data) {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: true,
-    //         user: res.data,
-    //       })
-    //     );
-    //     return true;
-    //   } else {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: false,
-    //         user: null,
-    //       })
-    //     );
-    //     return false;
-    //   }
-    // })
-    // .catch((res: any) => {
-    //   _dispatch(
-    //     setUser({
-    //       isLogin: false,
-    //       user: null,
-    //     })
-    //   );
-    //   return false;
-  });
+  return getTemplateDetailApi(reqData)
+    .then((res: any) => {
+      if (res.statusCode === 200 && !!res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    })
+    .catch((res: any) => {
+      return false;
+    });
 }
 
 export async function createTemplatDataAction(
@@ -145,35 +74,17 @@ export async function createTemplatDataAction(
   },
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createTemplatDataApi(reqData).then((res: any) => {
-    return res.data;
-    //   if (res.statusCode === 200 && !!res.data) {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: true,
-    //         user: res.data,
-    //       })
-    //     );
-    //     return true;
-    //   } else {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: false,
-    //         user: null,
-    //       })
-    //     );
-    //     return false;
-    //   }
-    // })
-    // .catch((res: any) => {
-    //   _dispatch(
-    //     setUser({
-    //       isLogin: false,
-    //       user: null,
-    //     })
-    //   );
-    //   return false;
-  });
+  return createTemplatDataApi(reqData)
+    .then((res: any) => {
+      if (res.statusCode === 200 && !!res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    })
+    .catch((res: any) => {
+      return false;
+    });
 }
 
 export async function getTemplatDataAction(
@@ -185,33 +96,15 @@ export async function getTemplatDataAction(
   },
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getTemplatDataApi(reqData).then((res: any) => {
-    return res.data;
-    //   if (res.statusCode === 200 && !!res.data) {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: true,
-    //         user: res.data,
-    //       })
-    //     );
-    //     return true;
-    //   } else {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: false,
-    //         user: null,
-    //       })
-    //     );
-    //     return false;
-    //   }
-    // })
-    // .catch((res: any) => {
-    //   _dispatch(
-    //     setUser({
-    //       isLogin: false,
-    //       user: null,
-    //     })
-    //   );
-    //   return false;
-  });
+  return getTemplatDataApi(reqData)
+    .then((res: any) => {
+      if (res.statusCode === 200 && !!res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    })
+    .catch((res: any) => {
+      return false;
+    });
 }
