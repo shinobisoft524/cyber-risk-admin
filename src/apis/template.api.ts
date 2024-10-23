@@ -11,3 +11,11 @@ export const getTemplateListApi = async (data: unknown) => {
 export const getTemplateDetailApi = async (data: unknown) => {
   return await PostApi(`/api/template/detail`, { reqData: data });
 };
+
+export const createTemplatDataApi = async (data: unknown) => {
+  return await PostApi(`/api/template/createData`, { reqData: data });
+};
+
+export const getTemplatDataApi = async (data: unknown) => {
+  return await PostApi(`/api/template/getData`, { reqData: data });
+};

@@ -6,6 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import readXlsxFile from 'read-excel-file';
 
 export interface IQuestion {
+  cyberkey: string;
   cyberId: string;
   templateInfo: {
     templateId: number;
@@ -16,10 +17,14 @@ export interface IQuestion {
   question: string;
   answers: {
     id: number;
-    value: string;
+    label: string;
+    value?: string;
   }[];
   date1: string;
   date2: string;
+  _ref?: {
+    [key: string]: any;
+  };
 }
 
 const Uploader = (props: {
@@ -40,26 +45,82 @@ const Uploader = (props: {
         const keys: string[] = rows[0] as string[];
 
         rows.forEach((row, index) => {
+          const ref: any = {};
+          keys.forEach((key: string, index: number) => {
+            ref[key] = row[index];
+          });
           if (index !== 0) {
-            const length = row.length;
-            const question = row[0].toString();
-            const answers = [];
-            for (let i = 1; i < length - 1; i++) {
-              if (!!row[i]) answers.push({ id: answers.length, value: row[i].toString() });
-            }
+            if (stageId.toString() === '1') {
+              const length = row.length;
+              const question = row[0].toString();
+              const answers = [];
+              for (let i = 1; i < length - 1; i++) {
+                if (!!row[i]) answers.push({ id: answers.length, label: row[i].toString() });
+              }
 
-            temp.push({
-              cyberId: `cyber-template-id-${templateId}-stage-id-${stageId}-version-id-1`,
-              templateInfo: {
-                stageId: `stage${stageId}`,
-                templateId: templateId,
-              },
-              nId: index - 1,
-              question,
-              answers,
-              date1: new Date().toString(),
-              date2: new Date().toString(),
-            });
+              temp.push({
+                cyberkey: `cyber-template-id-${templateId}-stage-id-${stageId}-version-id-1`,
+                cyberId: `cyber-template-id-${templateId}-stage-id-${stageId}-version-id-1-n-id-${(
+                  index - 1
+                ).toString()}`,
+                templateInfo: {
+                  stageId: `stage${stageId}`,
+                  templateId: templateId,
+                },
+                nId: index - 1,
+                question,
+                answers,
+                date1: new Date().toString(),
+                date2: new Date().toString(),
+                _ref: ref,
+              });
+            } else if (stageId.toString() === '2') {
+              const question = row[4].toString();
+              const answers = [
+                {
+                  id: 0,
+                  value: 'true',
+                  label: 'True',
+                },
+                {
+                  id: 1,
+                  value: 'false',
+                  label: 'False',
+                },
+                {
+                  id: 2,
+                  value: 'partial',
+                  label: 'Partial',
+                },
+                {
+                  id: 3,
+                  value: 'notApplicable',
+                  label: 'Not Applicable',
+                },
+                {
+                  id: 4,
+                  value: 'toBeConfirmed',
+                  label: 'To Be Confirmed',
+                },
+              ];
+
+              temp.push({
+                cyberkey: `cyber-template-id-${templateId}-stage-id-${stageId}-version-id-1`,
+                cyberId: `cyber-template-id-${templateId}-stage-id-${stageId}-version-id-1-n-id-${(
+                  index - 1
+                ).toString()}`,
+                templateInfo: {
+                  stageId: `stage${stageId}`,
+                  templateId: templateId,
+                },
+                nId: index - 1,
+                question,
+                answers,
+                date1: new Date().toString(),
+                date2: new Date().toString(),
+                _ref: ref,
+              });
+            }
           }
         });
         handleUpdate(temp);
