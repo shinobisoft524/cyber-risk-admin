@@ -8,7 +8,7 @@ import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcr
 
 const BCrumb = [
   {
-    to: '/',
+    to: '/dashboard',
     title: 'Organisations',
   },
   {
@@ -16,7 +16,7 @@ const BCrumb = [
   },
 ];
 
-export default function OrganisationListPage() {
+export default function Page() {
   return (
     <PageContainer title="Organisations List Page" description="This is an organisations list page">
       <Breadcrumb title="Organisations List" items={BCrumb} />

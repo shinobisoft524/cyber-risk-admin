@@ -9,40 +9,23 @@ import {
   setCurrentOrganisation,
   setList,
 } from '@/store/organisation/OrganisationSlice';
+import { IStandardReq } from '@/cmodels';
 
 export async function createOrganisationAction(
-  data: ICurrentOrganisationType,
+  data: IStandardReq<ICurrentOrganisationType>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createOrganisationApi(data).then((res: any) => {
-    return res;
-    //   if (res.statusCode === 200 && !!res.data) {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: true,
-    //         user: res.data,
-    //       })
-    //     );
-    //     return true;
-    //   } else {
-    //     _dispatch(
-    //       setUser({
-    //         isLogin: false,
-    //         user: null,
-    //       })
-    //     );
-    //     return false;
-    //   }
-    // })
-    // .catch((res: any) => {
-    //   _dispatch(
-    //     setUser({
-    //       isLogin: false,
-    //       user: null,
-    //     })
-    //   );
-    //   return false;
-  });
+  return createOrganisationApi(data)
+    .then((res: any) => {
+      if (res.statusCode === 200 && !!res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    })
+    .catch(() => {
+      return false;
+    });
 }
 
 export async function getOrganisationListAction(
@@ -72,9 +55,9 @@ export async function getOrganisationDetailAction(
 ) {
   return getOrganisationDetailApi(data)
     .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data && res.data.length === 1) {
+      if (res.statusCode === 200 && !!res.data) {
         console.log(res.data);
-        _dispatch(setCurrentOrganisation(res.data[0]));
+        _dispatch(setCurrentOrganisation(res.data));
         return true;
       } else {
         _dispatch(setCurrentOrganisation({}));

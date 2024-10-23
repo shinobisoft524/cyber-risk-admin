@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useState } from 'react';
 import { useSelector } from '@/store/hooks';
-import { usePathname } from "next/navigation";
+import { usePathname } from 'next/navigation';
 
 // mui imports
 import Collapse from '@mui/material/Collapse';
@@ -20,7 +20,7 @@ import NavItem from '../NavItem';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { AppState } from '@/store/store';
-import { isNull } from "lodash";
+import { isNull } from 'lodash';
 
 type NavGroupProps = {
   [x: string]: any;
@@ -32,6 +32,7 @@ type NavGroupProps = {
 };
 
 interface NavCollapseProps {
+  parentTile?: string;
   menu: NavGroupProps;
   level: number;
   pathWithoutLastPart: any;
@@ -41,19 +42,20 @@ interface NavCollapseProps {
 }
 
 // FC Component For Dropdown Menu
-export default  function NavCollapse ({
+export default function NavCollapse({
+  parentTile = '',
   menu,
   level,
   pathWithoutLastPart,
   pathDirect,
   hideMenu,
-  onClick
-}: NavCollapseProps)  {
-  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
+  onClick,
+}: NavCollapseProps) {
+  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
   const customizer = useSelector((state: AppState) => state.customizer);
   const Icon = menu?.icon;
   const theme = useTheme();
-  const pathname  = usePathname();
+  const pathname = usePathname();
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const menuIcon =
@@ -73,6 +75,7 @@ export default  function NavCollapse ({
     });
   }, [pathname, menu.children]);
 
+
   const ListItemStyled = styled(ListItemButton)(() => ({
     marginBottom: '2px',
     padding: '8px 10px',
@@ -80,10 +83,11 @@ export default  function NavCollapse ({
     backgroundColor: open && level < 2 ? theme.palette.primary.main : '',
     whiteSpace: 'nowrap',
     '&:hover': {
-      backgroundColor: pathname.includes(menu.href) || open
-        ? theme.palette.primary.main
-        : theme.palette.primary.light,
-      color: pathname.includes(menu.href)|| open ? 'white' : theme.palette.primary.main,
+      backgroundColor:
+        pathname.includes(menu.href) || open
+          ? theme.palette.primary.main
+          : theme.palette.primary.light,
+      color: pathname.includes(menu.href) || open ? 'white' : theme.palette.primary.main,
     },
     color:
       open && level < 2
@@ -111,6 +115,7 @@ export default  function NavCollapse ({
     } else {
       return (
         <NavItem
+          parentTitle={menu.title}
           key={item.id}
           item={item}
           level={level + 1}
@@ -146,6 +151,4 @@ export default  function NavCollapse ({
       </Collapse>
     </>
   );
-};
-
-
+}

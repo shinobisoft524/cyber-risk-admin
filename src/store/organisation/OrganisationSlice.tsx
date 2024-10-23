@@ -21,7 +21,9 @@ export const OrganisationSlice = createSlice({
   name: 'organisation',
   initialState,
   reducers: {
-    initOrganisation: () => initialState,
+    initOrganisation: (state: IStateType) => {
+      state = initialState;
+    },
     setList: (state: IStateType, action) => {
       state.list = action.payload;
     },
@@ -40,9 +42,10 @@ export const OrganisationSlice = createSlice({
       state: IStateType,
       action: { payload: { field: keyof User; value: any } }
     ) => {
-      if (state.currentOrganisation?.Owner) {
-        state.currentOrganisation.Owner[action.payload.field] = action.payload.value as never;
-      }
+      if (!(state.currentOrganisation as any).Owner) (state.currentOrganisation as any).Owner = {};
+
+      (state.currentOrganisation as any).Owner[action.payload.field] = action.payload
+        .value as never;
     },
   },
 });

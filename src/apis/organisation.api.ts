@@ -1,12 +1,7 @@
+import { PostApi } from './instance.api';
+
 export const createOrganisationApi = async (data: unknown) => {
-  const res = await fetch(`/api/organisation/create`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ organisation: data }),
-  });
-  return res.json();
+  return await PostApi(`/api/organisation/create`, { reqData: data });
 };
 
 export const getOrganisationListApi = async (data: unknown) => {
@@ -21,12 +16,5 @@ export const getOrganisationListApi = async (data: unknown) => {
 };
 
 export const getOrganisationDetailApi = async (data: unknown) => {
-  const res = await fetch(`/api/organisation/list`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ organisation: data }),
-  });
-  return res.json();
+  return await PostApi(`/api/organisation/detail`, { reqData: data });
 };

@@ -30,6 +30,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { AppState } from '@/store/store';
 import { useRouter } from 'next/navigation';
 import { getTemplateListAction } from '@/actions/template.action';
+import { Button } from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -459,10 +460,23 @@ const TemplateList = () => {
           />
         </Paper>
         <Box ml={2}>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<CustomSwitch checked={dense} onChange={handleChangeDense} />}
             label="Dense padding"
-          />
+          /> */}
+
+          <Button
+            sx={{
+              mt: 2,
+              mb: 2,
+            }}
+            color="primary"
+            size="medium"
+            variant="contained"
+            onClick={() => router.push('/templates/detail')}
+          >
+            Create New Template
+          </Button>
         </Box>
       </Box>
     </Box>

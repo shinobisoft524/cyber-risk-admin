@@ -22,7 +22,7 @@ const BCrumb = [
   },
 ];
 
-export default function TemplateDetailPage() {
+export default function Page() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 

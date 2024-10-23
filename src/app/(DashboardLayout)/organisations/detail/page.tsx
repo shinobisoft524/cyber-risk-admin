@@ -5,14 +5,13 @@ import BlankCard from '@/components/shared/BlankCard';
 import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import { Button, Grid, Stack } from '@mui/material';
 import OrganisationDetail from '@/app/components/organisation/OrganisationDetail';
-import NoteDetail from '@/app/components/organisation/NoteDetail';
 import OwnerDetail from '@/app/components/organisation/OwnerDetail';
 import AdminAction from '@/app/components/organisation/AdminAction';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/store/store';
 import { useEffect } from 'react';
 import { useDispatch } from '@/store/hooks';
-import { initOrganisation, setCurrentOrganisation } from '@/store/organisation/OrganisationSlice';
+import { initOrganisation } from '@/store/organisation/OrganisationSlice';
 import {
   createOrganisationAction,
   getOrganisationDetailAction,
@@ -29,28 +28,21 @@ const BCrumb = [
   },
 ];
 
-export default function OrganisationDetailPage() {
+export default function Page() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
   const dispatch = useDispatch();
   const router = useRouter();
-  const list = useSelector((state: AppState) => state.organisation.list);
   const currentOrganisation = useSelector(
     (state: AppState) => state.organisation.currentOrganisation
   );
 
   useEffect(() => {
     !id && dispatch(initOrganisation());
-    return () => {
-      !id && dispatch(initOrganisation());
-    };
-  }, []);
-
-  useEffect(() => {
     id && getOrganisation(Number(id));
     return () => {
-      id && dispatch(initOrganisation());
+      !id && dispatch(initOrganisation());
     };
   }, [id]);
 
@@ -60,9 +52,19 @@ export default function OrganisationDetailPage() {
 
   const handleSave = () => {
     if (currentOrganisation) {
-      createOrganisationAction(currentOrganisation, dispatch).then((res: any) => {
-        if (res === true) {
-          router.push('/organisation/list');
+      createOrganisationAction(
+        {
+          reqType: id ? 'update' : 'create',
+          info: currentOrganisation,
+        },
+        dispatch
+      ).then((res: { id: string }) => {
+        if (!!res) {
+          if (id) {
+            router.refresh();
+          } else {
+            router.push(`/organisations/detail?id=${res.id}`);
+          }
         }
       });
     }
@@ -73,7 +75,7 @@ export default function OrganisationDetailPage() {
       title="Organisation Detail Page"
       description="This is an organisation detail page"
     >
-      <Breadcrumb title="Create Organisation" items={BCrumb} />
+      <Breadcrumb title={`${id ? 'Edit' : 'Create'} Organisation`} items={BCrumb} />
 
       <Grid container spacing={3}>
         <Grid item lg={6}>
@@ -89,11 +91,11 @@ export default function OrganisationDetailPage() {
               <OwnerDetail />
             </BlankCard>
           </Stack>
-          <Stack mt={3} spacing={3}>
+          {/* <Stack mt={3} spacing={3}>
             <BlankCard>
               <NoteDetail />
             </BlankCard>
-          </Stack>
+          </Stack> */}
         </Grid>
         <Grid item lg={12}>
           <Stack mt={3} spacing={3}>
