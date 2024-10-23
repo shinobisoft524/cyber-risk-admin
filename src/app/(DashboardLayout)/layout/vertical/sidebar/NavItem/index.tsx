@@ -14,6 +14,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useSelector } from '@/store/hooks';
 import { useTranslation } from 'react-i18next';
 import { AppState } from '@/store/store';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 type NavGroup = {
   [x: string]: any;
@@ -33,6 +34,7 @@ type NavGroup = {
 };
 
 interface ItemType {
+  parentTitle?: string;
   item: NavGroup;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
   hideMenu?: any;
@@ -40,8 +42,31 @@ interface ItemType {
   pathDirect: string;
 }
 
-export default function NavItem  ({ item, level, pathDirect, hideMenu, onClick }: ItemType) {
-  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
+export default function NavItem({
+  parentTitle = '',
+  item,
+  level,
+  pathDirect,
+  hideMenu,
+  onClick,
+}: ItemType) {
+  const pathname = usePathname();
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+
+  const isDetailOrNew = (title: string = '') => {
+    if (parentTitle && title === 'Detail') {
+      if (pathname === `/${parentTitle.toLocaleLowerCase()}/${title.toLocaleLowerCase()}`) {
+        if (!id) {
+          return 'New';
+        }
+      }
+    }
+    return title;
+  };
+
+  const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
   const customizer = useSelector((state: AppState) => state.customizer);
   const Icon = item?.icon;
   const theme = useTheme();
@@ -93,8 +118,8 @@ export default function NavItem  ({ item, level, pathDirect, hideMenu, onClick }
           // {...listItemProps}
           disabled={item?.disabled}
           selected={pathDirect === item?.href}
-          onClick={lgDown ? onClick : undefined}>
-
+          onClick={lgDown ? onClick : undefined}
+        >
           <ListItemIcon
             sx={{
               minWidth: '36px',
@@ -108,7 +133,7 @@ export default function NavItem  ({ item, level, pathDirect, hideMenu, onClick }
             {itemIcon}
           </ListItemIcon>
           <ListItemText>
-            {hideMenu ? '' : <>{t(`${item?.title}`)}</>}
+            {hideMenu ? '' : <>{t(`${isDetailOrNew(item?.title)}`)}</>}
             <br />
             {item?.subtitle ? (
               <Typography variant="caption">{hideMenu ? '' : item?.subtitle}</Typography>
@@ -129,5 +154,4 @@ export default function NavItem  ({ item, level, pathDirect, hideMenu, onClick }
       </Link>
     </List>
   );
-};
-
+}

@@ -6,6 +6,18 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === '/') {
     return NextResponse.next();
   }
+
+  if (
+    !request.nextUrl.pathname.startsWith('/auth') &&
+    !request.nextUrl.pathname.startsWith('/templates') &&
+    !request.nextUrl.pathname.startsWith('/dashboard') &&
+    !request.nextUrl.pathname.startsWith('/organisations') &&
+    !request.nextUrl.pathname.startsWith('/users')
+  ) {
+    console.log('----ignore url');
+    return NextResponse.next();
+  }
+
   let isLogin = request.cookies.get('isLogin');
   if (isLogin === undefined) {
     if (
@@ -26,5 +38,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/dashboard', '/auth/register', '/auth/login'],
+  // matcher: ['/', '/dashboard', '/auth/register', '/auth/login'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

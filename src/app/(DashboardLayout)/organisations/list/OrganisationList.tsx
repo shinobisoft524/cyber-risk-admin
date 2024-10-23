@@ -4,7 +4,6 @@ import * as React from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Paper from '@mui/material/Paper';
@@ -23,20 +22,13 @@ import Typography from '@mui/material/Typography';
 import { visuallyHidden } from '@mui/utils';
 import { useSelector, useDispatch } from '@/store/hooks';
 import CustomCheckbox from '@/components/forms/theme-elements/CustomCheckbox';
-import CustomSwitch from '@/components/forms/theme-elements/CustomSwitch';
-import {
-  IconEdit,
-  IconEye,
-  IconDotsVertical,
-  IconFilter,
-  IconSearch,
-  IconTrash,
-} from '@tabler/icons-react';
-import { IAssessment, Organisation } from '@/cmodels';
+import { IconEdit, IconEye, IconFilter, IconSearch, IconTrash } from '@tabler/icons-react';
+import { Organisation } from '@/cmodels';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getOrganisationListAction } from '@/actions/orgnisation.action';
 import { AppState } from '@/store/store';
 import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -409,13 +401,13 @@ const OrganisationList = () => {
                           </Box>
                         </TableCell>
 
-                        <TableCell align="center">
+                        <TableCell align={'left'}>
                           <Tooltip title="View Assssment">
                             <IconButton color="primary">
                               <IconEye width={22} />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Edit Assssment">
+                          <Tooltip title="Edit Organisation">
                             <IconButton
                               onClick={() => router.push(`/organisations/detail?id=${row.id}`)}
                               color="success"
@@ -423,11 +415,11 @@ const OrganisationList = () => {
                               <IconEdit width={22} />
                             </IconButton>
                           </Tooltip>
-                          <Tooltip title="Delete Assssment">
+                          {/* <Tooltip title="Delete Organisation">
                             <IconButton color="error">
                               <IconTrash width={22} />
                             </IconButton>
-                          </Tooltip>
+                          </Tooltip> */}
                         </TableCell>
                       </TableRow>
                     );
@@ -455,10 +447,22 @@ const OrganisationList = () => {
           />
         </Paper>
         <Box ml={2}>
-          <FormControlLabel
+          <Button
+            sx={{
+              mt: 2,
+              mb: 2,
+            }}
+            color="primary"
+            size="medium"
+            variant="contained"
+            onClick={() => router.push('/organisations/detail')}
+          >
+            Create New Organisation
+          </Button>
+          {/* <FormControlLabel
             control={<CustomSwitch checked={dense} onChange={handleChangeDense} />}
             label="Dense padding"
-          />
+          /> */}
         </Box>
       </Box>
     </Box>

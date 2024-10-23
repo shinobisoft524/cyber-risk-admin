@@ -5,7 +5,7 @@ import BlankCard from '@/components/shared/BlankCard';
 import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import { Button, Grid, Stack } from '@mui/material';
 import AdminAction from '@/app/components/organisation/AdminAction';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from '@/store/hooks';
 import { useRouter, useSearchParams } from 'next/navigation';
 import TemplateDetail from './templateDetail';
@@ -22,7 +22,7 @@ const BCrumb = [
   },
 ];
 
-export default function TemplateDetailPage() {
+export default function Page() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
@@ -43,21 +43,23 @@ export default function TemplateDetailPage() {
   const getTemplate = () => {
     getTemplateDetailAction(
       {
-        user: null as any,
         info: {
-          organisationId: null,
-          value: { id: id },
-        } as any,
+          id: Number(id),
+        },
       },
       dispatch
     ).then((res: any) => {
       // setRows(res);
       setName(res.name);
       if (res.TemplateStage && res.TemplateStage.length) {
-        setStages(res.TemplateStage.length);
+        setStages(res.TemplateStage);
       }
     });
   };
+
+  const hasStage = useMemo(() => {
+    return stages.length > 0;
+  }, [stages]);
 
   const handleUpdate = (value: string) => {
     setName(value);
@@ -67,13 +69,10 @@ export default function TemplateDetailPage() {
     if (name) {
       createTemplatAction(
         {
-          type: id ? 'update' : 'new',
-          user: null as any,
+          reqType: id ? 'update' : 'create',
           info: {
-            value: {
-              id: id as any,
-              name: name,
-            },
+            id: id as any,
+            name: name,
           },
         },
         dispatch
@@ -89,7 +88,7 @@ export default function TemplateDetailPage() {
 
   return (
     <PageContainer title="Template Detail Page" description="This is an organisation detail page">
-      <Breadcrumb title="Create Template" items={BCrumb} />
+      <Breadcrumb title={`${id ? 'Update' : 'Create'} Template`} items={BCrumb} />
 
       <Grid container spacing={3}>
         <Grid item lg={6}>
@@ -117,7 +116,7 @@ export default function TemplateDetailPage() {
         </Button>
       </Stack>
 
-      {stages && (
+      {hasStage ? (
         <Grid container mt={6} spacing={3}>
           <Grid item lg={6}>
             <Stack spacing={3}>
@@ -125,11 +124,13 @@ export default function TemplateDetailPage() {
                 <Link href={`/templates/stage?id=1&templateId=${id}`}>Stage 1</Link>
               </BlankCard>
               <BlankCard>
-                <Link href={`/templates/stage?id=1&templateId=${id}`}>Stage 2</Link>
+                <Link href={`/templates/stage?id=2&templateId=${id}`}>Stage 2</Link>
               </BlankCard>
             </Stack>
           </Grid>
         </Grid>
+      ) : (
+        <></>
       )}
     </PageContainer>
   );

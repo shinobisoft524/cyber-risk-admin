@@ -3,5 +3,5 @@ import { type NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const reqData = await req.json();
-  return await PostApi(req, 'organisation/create', reqData);
+  return await PostApi(req, 'template/getData', reqData);
 }
