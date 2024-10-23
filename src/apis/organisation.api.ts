@@ -4,6 +4,10 @@ export const createOrganisationApi = async (data: unknown) => {
   return await PostApi(`/api/organisation/create`, { reqData: data });
 };
 
+export const createOrganisationAssessmentApi = async (data: unknown) => {
+  return await PostApi(`/api/organisation/createOrganisationAssessment`, { reqData: data });
+};
+
 export const getOrganisationListApi = async (data: unknown) => {
   const res = await fetch(`/api/organisation/list`, {
     method: 'post',
@@ -17,4 +21,8 @@ export const getOrganisationListApi = async (data: unknown) => {
 
 export const getOrganisationDetailApi = async (data: unknown) => {
   return await PostApi(`/api/organisation/detail`, { reqData: data });
+};
+
+export const getOrganisatioAssessmentDetailApi = async (data: unknown) => {
+  return await PostApi(`/api/organisation/assessmentDetail`, { reqData: data });
 };

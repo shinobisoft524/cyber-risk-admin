@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
   Grid,
@@ -32,10 +32,41 @@ function union(a: readonly number[], b: readonly number[]) {
   return [...a, ...not(b, a)];
 }
 
-const TemplateAssignList = () => {
-  const [checked, setChecked] = React.useState<readonly number[]>([]);
-  const [left, setLeft] = React.useState<readonly number[]>([0, 1, 2, 3]);
-  const [right, setRight] = React.useState<readonly number[]>([4, 5, 6, 7]);
+const TemplateAssignList = (props: {
+  list: {
+    left: any[];
+    right: any[];
+  };
+  handleUpdate?: (value: { left: any[]; right: any[] }) => void;
+}) => {
+  const { list, handleUpdate } = props;
+
+  const [checked, setChecked] = useState<readonly number[]>([]);
+  const [left, setLeft] = useState<number[]>([]);
+  const [right, setRight] = useState<number[]>([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    makeList();
+  }, [list]);
+
+  useEffect(() => {
+    handleUpdate &&
+      handleUpdate({
+        left,
+        right,
+      });
+  }, [left, right]);
+
+  const makeList = () => {
+    setIsLoading(true);
+    setLeft(list.left.map((l) => Number(l.id)));
+    setRight(list.right.map((r) => Number(r.id)));
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 50);
+  };
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -77,6 +108,14 @@ const TemplateAssignList = () => {
 
   const theme = useTheme();
   const borderColor = theme.palette.grey[100];
+
+  const getTitle = (id: number) => {
+    if (list.left.length >= id + 1) {
+      return list.left[id].data.name;
+    } else {
+      return list.right[id - list.left.length].data.Template.name;
+    }
+  };
 
   const customList = (title: React.ReactNode, items: readonly number[]) => (
     <Paper variant="outlined" sx={{ border: `1px solid ${borderColor}` }}>
@@ -122,7 +161,7 @@ const TemplateAssignList = () => {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`User ${value + 1}`} />
+              <ListItemText id={labelId} primary={getTitle(value)} />
             </ListItem>
           );
         })}
@@ -131,6 +170,7 @@ const TemplateAssignList = () => {
     </Paper>
   );
 
+  if (isLoading) return <></>;
   return (
     <Box p={3}>
       <Typography variant="h5">Assigned Template</Typography>
