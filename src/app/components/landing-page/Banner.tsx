@@ -96,7 +96,7 @@ const Banner = () => {
             <Grid item p={0} xs={8} lg={8} textAlign={'start'}>
               <Typography variant="h1" fontWeight={700} lineHeight={2.5}>
                 <Typography variant="h1" component="span" color={'#0D6EFD'} sx={bannerTitleSX}>
-                  We test{' '}
+                  Welcome{' '}
                 </Typography>
                 <Typography
                   variant="h1"
@@ -105,7 +105,7 @@ const Banner = () => {
                   fontWeight={700}
                   component="span"
                 >
-                  candidates
+                  Cyber
                 </Typography>
                 <br />
                 <Typography
@@ -115,18 +115,10 @@ const Banner = () => {
                   fontWeight={700}
                   component="span"
                 >
-                  so that{' '}
+                  Admint{' '}
                 </Typography>
                 <Typography variant="h1" component="span" color={'#0D6EFD'} sx={bannerTitleSX}>
-                  you don't
-                </Typography>
-                <br />
-                <Typography variant="h1" component="span" color={'#0D6EFD'} sx={bannerTitleSX}>
-                  have to.
-                </Typography>
-                <br/>
-                <Typography variant="h1" component="span" color={'#696969'} sx={bannerSubTitleSX}>
-                  Or you can hire from our certified talent pool.
+                  Panel
                 </Typography>
               </Typography>
             </Grid>
