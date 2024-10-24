@@ -222,6 +222,7 @@ const QuestionList = ({ onClick }: Props) => {
                                 <AvatarGroup max={4}>
                                   {row.original.teams.map((team: any) => (
                                     <Avatar
+                                      key={team.id}
                                       sx={{
                                         bgcolor: team.color,
                                         width: 35,
