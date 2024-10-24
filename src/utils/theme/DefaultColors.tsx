@@ -47,7 +47,6 @@ const baselightTheme = {
       400: '#7C8FAC',
       500: '#5A6A85',
       600: '#2A3547',
-      
     },
     text: {
       primary: '#2A3547',
@@ -110,7 +109,7 @@ const baseDarkTheme = {
       300: '#7C8FAC',
       400: '#DFE5EF',
       500: '#EAEFF4',
-      600: '#F2F6FA'
+      600: '#F2F6FA',
     },
     text: {
       primary: '#EAEFF4',
@@ -131,5 +130,3 @@ const baseDarkTheme = {
 };
 
 export { baseDarkTheme, baselightTheme };
-
-

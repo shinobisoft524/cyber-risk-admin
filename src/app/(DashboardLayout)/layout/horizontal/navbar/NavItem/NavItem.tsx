@@ -48,7 +48,9 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
     borderRadius: `${customizer.borderRadius}px`,
     marginBottom: level > 1 ? '3px' : '0px',
     color:
-      level > 1 && pathDirect === item.href ? `${theme.palette.primary.main}!important` : theme.palette.text.secondary,
+      level > 1 && pathDirect === item.href
+        ? `${theme.palette.primary.main}!important`
+        : theme.palette.text.secondary,
 
     '&:hover': {
       backgroundColor: theme.palette.primary.light,
@@ -97,6 +99,5 @@ const NavItem = ({ item, level, pathDirect, onClick }: ItemType) => {
     </List>
   );
 };
-
 
 export default NavItem;

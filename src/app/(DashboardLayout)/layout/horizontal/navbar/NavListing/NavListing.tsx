@@ -1,5 +1,5 @@
 import Menudata from '../Menudata';
-import { usePathname } from "next/navigation";
+import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import { Theme } from '@mui/material/styles';
@@ -10,7 +10,7 @@ import NavCollapse from '../NavCollapse/NavCollapse';
 import { AppState } from '@/store/store';
 
 const NavListing = () => {
-  const pathname  = usePathname();
+  const pathname = usePathname();
   const pathDirect = pathname;
   const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf('/'));
   const customizer = useSelector((state: AppState) => state.customizer);
@@ -29,15 +29,23 @@ const NavListing = () => {
                 hideMenu={hideMenu}
                 pathWithoutLastPart={pathWithoutLastPart}
                 level={1}
-                key={item.id} onClick={undefined} />
+                key={item.id}
+                onClick={undefined}
+              />
             );
 
             // {/********If Sub No Menu**********/}
           } else {
             return (
-              <NavItem item={item} key={item.id} pathDirect={pathDirect} hideMenu={hideMenu} onClick={function (): void {
-                throw new Error('Function not implemented.');
-              }} />
+              <NavItem
+                item={item}
+                key={item.id}
+                pathDirect={pathDirect}
+                hideMenu={hideMenu}
+                onClick={function (): void {
+                  throw new Error('Function not implemented.');
+                }}
+              />
             );
           }
         })}

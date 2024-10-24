@@ -1,4 +1,4 @@
-const ThemeColors = [  
+const ThemeColors = [
   {
     name: 'SHINOBI_THEME',
     palette: {

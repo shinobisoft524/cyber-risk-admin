@@ -6,7 +6,11 @@ import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from '@/store/hooks';
-import { toggleSidebar, toggleMobileSidebar, setDarkMode } from '@/store/customizer/CustomizerSlice';
+import {
+  toggleSidebar,
+  toggleMobileSidebar,
+  setDarkMode,
+} from '@/store/customizer/CustomizerSlice';
 import { IconMenu2, IconMoon, IconSun } from '@tabler/icons-react';
 import Notifications from './Notification';
 import Profile from './Profile';
@@ -65,24 +69,16 @@ const Header = () => {
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
           {/* <Language /> */}
-          
-           {/* ------------------------------------------- */}
+
+          {/* ------------------------------------------- */}
           {/* End Ecommerce Dropdown */}
           {/* ------------------------------------------- */}
 
           <IconButton size="large" color="inherit">
-            {customizer.activeMode === "light" ? (
-              <IconMoon
-                size="21"
-                stroke="1.5"
-                onClick={() => dispatch(setDarkMode("dark"))}
-              />
+            {customizer.activeMode === 'light' ? (
+              <IconMoon size="21" stroke="1.5" onClick={() => dispatch(setDarkMode('dark'))} />
             ) : (
-              <IconSun
-                size="21"
-                stroke="1.5"
-                onClick={() => dispatch(setDarkMode("light"))}
-              />
+              <IconSun size="21" stroke="1.5" onClick={() => dispatch(setDarkMode('light'))} />
             )}
           </IconButton>
           <Notifications />

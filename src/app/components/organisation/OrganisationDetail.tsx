@@ -91,7 +91,7 @@ const OrganisationDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField  disabled placeholder="Organisation Name" fullWidth />
+          <CustomTextField disabled placeholder="Organisation Name" fullWidth />
         </Grid>
         <Grid item xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
@@ -102,7 +102,7 @@ const OrganisationDetail = () => {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <CustomTextField  disabled placeholder="Organisation Name" fullWidth />
+          <CustomTextField disabled placeholder="Organisation Name" fullWidth />
         </Grid>
       </Grid>
     </Box>
