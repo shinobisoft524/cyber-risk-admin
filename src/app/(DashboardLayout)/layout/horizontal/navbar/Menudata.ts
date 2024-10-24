@@ -1,54 +1,54 @@
-import { IconPoint, IconAperture, IconBoxMultiple } from "@tabler/icons-react";
-import { uniqueId } from "lodash";
+import { IconPoint, IconAperture, IconBoxMultiple } from '@tabler/icons-react';
+import { uniqueId } from 'lodash';
 
 const Menuitems = [
   {
     id: uniqueId(),
-    title: "Starter",
+    title: 'Starter',
     icon: IconAperture,
-    href: "/",
+    href: '/',
   },
   {
     id: uniqueId(),
-    title: "Menu Levelss",
+    title: 'Menu Levelss',
     icon: IconBoxMultiple,
-    href: "/menulevel/",
+    href: '/menulevel/',
     children: [
       {
         id: uniqueId(),
-        title: "Level 1",
+        title: 'Level 1',
         icon: IconPoint,
-        href: "/l1",
+        href: '/l1',
       },
       {
         id: uniqueId(),
-        title: "Level 1.1",
+        title: 'Level 1.1',
         icon: IconPoint,
-        href: "/l1.1",
+        href: '/l1.1',
         children: [
           {
             id: uniqueId(),
-            title: "Level 2",
+            title: 'Level 2',
             icon: IconPoint,
-            href: "/l2",
+            href: '/l2',
           },
           {
             id: uniqueId(),
-            title: "Level 2.1",
+            title: 'Level 2.1',
             icon: IconPoint,
-            href: "/l2.1",
+            href: '/l2.1',
             children: [
               {
                 id: uniqueId(),
-                title: "Level 3",
+                title: 'Level 3',
                 icon: IconPoint,
-                href: "/l3",
+                href: '/l3',
               },
               {
                 id: uniqueId(),
-                title: "Level 3.1",
+                title: 'Level 3.1',
                 icon: IconPoint,
-                href: "/l3.1",
+                href: '/l3.1',
               },
             ],
           },

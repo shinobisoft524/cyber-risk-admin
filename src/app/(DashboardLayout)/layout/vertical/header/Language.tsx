@@ -14,23 +14,23 @@ import { AppState } from '@/store/store';
 const Languages = [
   {
     flagname: 'English (UK)',
-    icon: "/images/flag/icon-flag-en.svg",
+    icon: '/images/flag/icon-flag-en.svg',
     value: 'en',
   },
   {
     flagname: '中国人 (Chinese)',
-    icon: "/images/flag/icon-flag-cn.svg",
+    icon: '/images/flag/icon-flag-cn.svg',
     value: 'ch',
   },
   {
     flagname: 'français (French)',
-    icon: "/images/flag/icon-flag-fr.svg",
+    icon: '/images/flag/icon-flag-fr.svg',
     value: 'fr',
   },
 
   {
     flagname: 'عربي (Arabic)',
-    icon: "/images/flag/icon-flag-sa.svg",
+    icon: '/images/flag/icon-flag-sa.svg',
     value: 'ar',
   },
 ];

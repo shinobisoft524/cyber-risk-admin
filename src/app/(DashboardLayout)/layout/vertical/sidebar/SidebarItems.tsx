@@ -20,7 +20,6 @@ const SidebarItems = () => {
   const hideMenu: any = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
   const dispatch = useDispatch();
 
-
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">

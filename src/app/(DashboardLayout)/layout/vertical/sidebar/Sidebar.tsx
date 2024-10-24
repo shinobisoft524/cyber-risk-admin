@@ -1,20 +1,17 @@
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useTheme } from "@mui/material/styles";
-import SidebarItems from "./SidebarItems";
-import Logo from "../../shared/logo/Logo";
-import { useSelector, useDispatch } from "@/store/hooks";
-import {
-  hoverSidebar,
-  toggleMobileSidebar,
-} from "@/store/customizer/CustomizerSlice";
-import Scrollbar from "@/app/components/custom-scroll/Scrollbar";
-import { Profile } from "./SidebarProfile/Profile";
-import { AppState } from "@/store/store";
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import SidebarItems from './SidebarItems';
+import Logo from '../../shared/logo/Logo';
+import { useSelector, useDispatch } from '@/store/hooks';
+import { hoverSidebar, toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
+import Scrollbar from '@/app/components/custom-scroll/Scrollbar';
+import { Profile } from './SidebarProfile/Profile';
+import { AppState } from '@/store/store';
 
 const Sidebar = () => {
-  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.down("lg"));
+  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.down('lg'));
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -42,7 +39,7 @@ const Sidebar = () => {
             width: toggleWidth,
             flexShrink: 0,
             ...(customizer.isCollapse && {
-              position: "absolute",
+              position: 'absolute',
             }),
           }}
         >
@@ -57,11 +54,11 @@ const Sidebar = () => {
             variant="permanent"
             PaperProps={{
               sx: {
-                transition: theme.transitions.create("width", {
+                transition: theme.transitions.create('width', {
                   duration: theme.transitions.duration.shortest,
                 }),
                 width: toggleWidth,
-                boxSizing: "border-box",
+                boxSizing: 'border-box',
               },
             }}
           >
@@ -70,7 +67,7 @@ const Sidebar = () => {
             {/* ------------------------------------------- */}
             <Box
               sx={{
-                height: "100%",
+                height: '100%',
               }}
             >
               {/* ------------------------------------------- */}
@@ -79,7 +76,7 @@ const Sidebar = () => {
               <Box px={3}>
                 <Logo />
               </Box>
-              <Scrollbar sx={{ height: "calc(100% - 190px)" }}>
+              <Scrollbar sx={{ height: 'calc(100% - 190px)' }}>
                 {/* ------------------------------------------- */}
                 {/* Sidebar Items */}
                 {/* ------------------------------------------- */}
@@ -104,7 +101,7 @@ const Sidebar = () => {
               //     ? customizer.darkBackground900
               //     : customizer.activeSidebarBg,
               // color: customizer.activeSidebarBg === '#ffffff' ? '' : 'white',
-              border: "0 !important",
+              border: '0 !important',
               boxShadow: (theme: any) => theme.shadows[8],
             },
           }}

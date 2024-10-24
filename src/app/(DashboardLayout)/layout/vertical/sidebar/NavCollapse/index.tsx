@@ -75,7 +75,6 @@ export default function NavCollapse({
     });
   }, [pathname, menu.children]);
 
-
   const ListItemStyled = styled(ListItemButton)(() => ({
     marginBottom: '2px',
     padding: '8px 10px',
@@ -93,8 +92,8 @@ export default function NavCollapse({
       open && level < 2
         ? 'white'
         : `inherit` && level > 1 && open
-        ? theme.palette.primary.main
-        : theme.palette.text.secondary,
+          ? theme.palette.primary.main
+          : theme.palette.text.secondary,
     borderRadius: `${customizer.borderRadius}px`,
   }));
 

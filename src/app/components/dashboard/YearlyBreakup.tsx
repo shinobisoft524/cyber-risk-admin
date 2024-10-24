@@ -1,6 +1,5 @@
-
-import dynamic from "next/dynamic";
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
@@ -110,7 +109,7 @@ const YearlyBreakup = () => {
             series={seriescolumnchart}
             type="donut"
             height={150}
-            width={"100%"}
+            width={'100%'}
           />
         </Grid>
       </Grid>

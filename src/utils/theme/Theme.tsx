@@ -31,7 +31,7 @@ export const BuildTheme = (config: any = {}) => {
   const theme = createTheme(
     _.merge({}, baseMode, defaultTheme, locales, themeSelect, {
       direction: config.direction,
-    }),
+    })
   );
   theme.components = components(theme);
 
@@ -51,6 +51,5 @@ const ThemeSettings = () => {
 
   return theme;
 };
-
 
 export { ThemeSettings };
