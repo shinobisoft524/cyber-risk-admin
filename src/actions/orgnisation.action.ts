@@ -8,6 +8,7 @@ import {
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { ICurrentOrganisationType, setCurrentOrganisation, setList } from '@/store/organisation';
 import { IOrganisationAssessmentDetailReq, IStandardReq } from '@/cmodels';
+import { commonAction } from './common';
 
 export async function createOrganisationAction(
   data: IStandardReq<ICurrentOrganisationType>,
@@ -50,24 +51,12 @@ export async function createOrganisationAssessmentAction(
 }
 
 export async function getOrganisationListAction(
-  data: ICurrentOrganisationType,
+  reqData: IStandardReq<{
+    filter: any;
+  }>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getOrganisationListApi(data)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        console.log(res.data);
-        _dispatch(setList(res.data));
-        return true;
-      } else {
-        _dispatch(setList([]));
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      _dispatch(setList([]));
-      return false;
-    });
+  return commonAction(getOrganisationListApi, reqData, _dispatch, setList);
 }
 
 export async function getOrganisationDetailAction(

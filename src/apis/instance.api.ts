@@ -1,4 +1,4 @@
-export async function PostApi(url: string, reqData: any) {
+export async function FPostApi(url: string, reqData: any) {
   const res = await fetch(url, {
     method: 'post',
     headers: {

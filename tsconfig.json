@@ -26,7 +26,8 @@
       "@/apis/*": ["./src/apis/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/cmodels": ["./packages/models/index"],
-      "@/cvalidations": ["./packages/validations/index"]
+      "@/cvalidations": ["./packages/validations/index"],
+      "@/cprisma": ["./packages/models/build.d"]
     }
   },
   "include": [

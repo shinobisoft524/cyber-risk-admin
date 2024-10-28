@@ -42,17 +42,6 @@ export async function commonAction(
             },
           ])
         );
-        return false;
-      } else if (res.message) {
-        _dispatch(
-          setNotificationList([
-            {
-              code: null,
-              msg: res.message,
-            },
-          ])
-        );
-        return false;
       } else {
         _dispatch(
           setNotificationList([
@@ -62,8 +51,13 @@ export async function commonAction(
             },
           ])
         );
-        return false;
       }
+
+      if (!!_reduxAction) {
+        _dispatch(_reduxAction(false));
+      }
+
+      return false;
     })
     .catch(() => {
       _dispatch(

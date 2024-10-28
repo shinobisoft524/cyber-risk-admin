@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-export async function PostApi(req: NextRequest, url: string, reqData: any) {
+export async function BPostApi(req: NextRequest, url: string, reqData: any) {
   console.log(reqData);
 
   let jwtToken = req.cookies.get('jwt-token');

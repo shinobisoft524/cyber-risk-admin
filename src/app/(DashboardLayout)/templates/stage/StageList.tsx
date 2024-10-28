@@ -32,7 +32,7 @@ import {
   IconSearch,
   IconTrash,
 } from '@tabler/icons-react';
-import { IAssessment, Organisation } from '@/cmodels';
+import { Organisation } from '@/cprisma';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getOrganisationListAction } from '@/actions/orgnisation.action';
 import { AppState } from '@/store/store';

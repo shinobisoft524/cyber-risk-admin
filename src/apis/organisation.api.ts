@@ -1,28 +1,21 @@
-import { PostApi } from './instance.api';
+import { FPostApi } from './instance.api';
 
 export const createOrganisationApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/create`, { reqData: data });
+  return await FPostApi(`/api/organisation/create`, { reqData: data });
 };
 
 export const createOrganisationAssessmentApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/createOrganisationAssessment`, { reqData: data });
+  return await FPostApi(`/api/organisation/createOrganisationAssessment`, { reqData: data });
 };
 
 export const getOrganisationListApi = async (data: unknown) => {
-  const res = await fetch(`/api/organisation/list`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ organisation: null }),
-  });
-  return res.json();
+  return await FPostApi(`/api/organisation/list`, { reqData: data });
 };
 
 export const getOrganisationDetailApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/detail`, { reqData: data });
+  return await FPostApi(`/api/organisation/detail`, { reqData: data });
 };
 
 export const getOrganisatioAssessmentDetailApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/assessmentDetail`, { reqData: data });
+  return await FPostApi(`/api/organisation/assessmentDetail`, { reqData: data });
 };
