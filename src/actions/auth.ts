@@ -33,11 +33,11 @@ export async function loginAction(
 
   return commonAction(loginApi, reqData, _dispatch)
     .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
+      if (!!res) {
         _dispatch(
           setUser({
             isLogin: true,
-            user: res.data,
+            user: res,
           })
         );
         return true;

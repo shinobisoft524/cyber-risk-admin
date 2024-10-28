@@ -33,6 +33,26 @@ export async function commonAction(
           ])
         );
         return true;
+      } else if (res.message) {
+        _dispatch(
+          setNotificationList([
+            {
+              code: null,
+              msg: res.message,
+            },
+          ])
+        );
+        return false;
+      } else if (res.message) {
+        _dispatch(
+          setNotificationList([
+            {
+              code: null,
+              msg: res.message,
+            },
+          ])
+        );
+        return false;
       } else {
         _dispatch(
           setNotificationList([
