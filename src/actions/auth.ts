@@ -1,7 +1,7 @@
 import { RegisterSchema, SigninSchema } from '@/cvalidations';
 import { login as _login, register as _register, logout as _logout } from '@/apis/auth.api';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import { setUser } from '@/store/auth/AuthSlice';
+import { setUser } from '@/store/auth';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export async function register(data: { email: string; password: string }) {

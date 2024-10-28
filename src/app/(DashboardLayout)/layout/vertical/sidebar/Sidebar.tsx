@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import SidebarItems from './SidebarItems';
 import Logo from '../../shared/logo/Logo';
 import { useSelector, useDispatch } from '@/store/hooks';
-import { hoverSidebar, toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
+import { hoverSidebar, toggleMobileSidebar } from '@/store/customizer';
 import Scrollbar from '@/app/components/custom-scroll/Scrollbar';
 import { Profile } from './SidebarProfile/Profile';
 import { AppState } from '@/store/store';

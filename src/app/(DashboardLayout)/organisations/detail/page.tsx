@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '@/store/store';
 import { useEffect, useState } from 'react';
 import { useDispatch } from '@/store/hooks';
-import { initOrganisation } from '@/store/organisation/OrganisationSlice';
+import { initOrganisation } from '@/store/organisation';
 import {
   createOrganisationAction,
   createOrganisationAssessmentAction,

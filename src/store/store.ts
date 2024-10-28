@@ -2,9 +2,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 // import storage from 'redux-persist/lib/storage';
-import AuthReducer from './auth/AuthSlice';
-import CustomizerReducer from './customizer/CustomizerSlice';
-import OrganisationReucer from './organisation/OrganisationSlice';
+import AuthReducer from './auth';
+import CustomizerReducer from './customizer';
+import OrganisationReducer from './organisation';
+import NotificationReducer from './notification/index';
 
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
@@ -40,7 +41,8 @@ export const store = configureStore({
       },
       AuthReducer
     ),
-    organisation: OrganisationReucer,
+    organisation: OrganisationReducer,
+    notification: NotificationReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
@@ -50,7 +52,8 @@ export const store = configureStore({
 const rootReducer = combineReducers({
   customizer: CustomizerReducer,
   auth: AuthReducer,
-  organisation: OrganisationReucer,
+  organisation: OrganisationReducer,
+  notification: NotificationReducer,
 });
 
 export const persistor = persistStore(store);

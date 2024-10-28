@@ -6,7 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import NavListing from './NavListing/NavListing';
 import Logo from '../../shared/logo/Logo';
 import { useSelector, useDispatch } from '@/store/hooks';
-import { toggleMobileSidebar, setDarkMode } from '@/store/customizer/CustomizerSlice';
+import { toggleMobileSidebar, setDarkMode } from '@/store/customizer';
 import SidebarItems from '../../vertical/sidebar/SidebarItems';
 import { AppState } from '@/store/store';
 

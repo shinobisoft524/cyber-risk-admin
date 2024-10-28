@@ -6,11 +6,7 @@ import {
   getOrganisationListApi,
 } from '@/apis/organisation.api';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import {
-  ICurrentOrganisationType,
-  setCurrentOrganisation,
-  setList,
-} from '@/store/organisation/OrganisationSlice';
+import { ICurrentOrganisationType, setCurrentOrganisation, setList } from '@/store/organisation';
 import { IOrganisationAssessmentDetailReq, IStandardReq } from '@/cmodels';
 
 export async function createOrganisationAction(

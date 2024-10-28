@@ -7,7 +7,7 @@ export async function PostApi(req: NextRequest, url: string, reqData: any) {
 
   console.log('Api calling: token = ', jwtToken);
 
-  const resData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+  const resData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}v1/${url}`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
