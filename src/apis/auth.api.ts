@@ -1,5 +1,7 @@
+import { PostApi } from './_';
+
 export const register = async (data: unknown) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/register`, {
+  const res = await fetch(`user/register`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
@@ -9,23 +11,8 @@ export const register = async (data: unknown) => {
   return res.json();
 };
 
-export const login = async (data: unknown) => {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/login`, {
-  //   method: 'post',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({ user: data }),
-  // });
-  // return res.json();
-  const res = await fetch(`/api/auth/login`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ user: data }),
-  });
-  return res.json();
+export const loginApi = async (data: unknown) => {
+  return await PostApi(`/api/auth/login`, { reqData: data });
 };
 
 export const logout = async (data: { email: string }) => {

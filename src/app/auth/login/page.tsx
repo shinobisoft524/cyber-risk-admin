@@ -108,22 +108,23 @@ export default function Login() {
                 </Typography>
               }
               subtitle={
-                <Stack direction="row" spacing={1} mt={3}>
-                  <Typography color="textSecondary" variant="h6" fontWeight="500">
-                    New to Cyberprism?
-                  </Typography>
-                  <Typography
-                    component={Link}
-                    href="/auth/register"
-                    fontWeight="500"
-                    sx={{
-                      textDecoration: 'none',
-                      color: 'primary.main',
-                    }}
-                  >
-                    Create an account
-                  </Typography>
-                </Stack>
+                <></>
+                // <Stack direction="row" spacing={1} mt={3}>
+                //   <Typography color="textSecondary" variant="h6" fontWeight="500">
+                //     New to Cyberprism?
+                //   </Typography>
+                //   <Typography
+                //     component={Link}
+                //     href="/auth/register"
+                //     fontWeight="500"
+                //     sx={{
+                //       textDecoration: 'none',
+                //       color: 'primary.main',
+                //     }}
+                //   >
+                //     Create an account
+                //   </Typography>
+                // </Stack>
               }
             />
           </Box>

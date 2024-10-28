@@ -1,7 +1,9 @@
-import { RegisterSchema, SigninSchema } from '@/cvalidations';
-import { login as _login, register as _register, logout as _logout } from '@/apis/auth.api';
+import { RegisterSchema, LoginSchema } from '@/cvalidations';
+import { loginApi, register as _register, logout as _logout } from '@/apis/auth.api';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 import { setUser } from '@/store/auth';
+import { commonAction } from './common';
+import { IAuthReq, IStandardReq } from '@/cmodels';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export async function register(data: { email: string; password: string }) {
@@ -17,17 +19,19 @@ export async function register(data: { email: string; password: string }) {
   return res;
 }
 
-export async function login(
-  data: { email: string; password: string },
-  _dispatch: Dispatch<AnyAction>
-) {
-  const validatedFields = SigninSchema.safeParse(data);
+export async function loginAction(
+  reqData: IStandardReq<IAuthReq>,
+  _dispatch: Dispatch<any>
+): Promise<boolean> {
+  const validatedFields = LoginSchema.safeParse(reqData.info);
   if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
+    return false;
+    // {
+    //   errors: validatedFields.error.flatten().fieldErrors,
+    // };
   }
-  return _login(data)
+
+  return commonAction(loginApi, reqData, _dispatch)
     .then((res: any) => {
       if (res.statusCode === 200 && !!res.data) {
         _dispatch(
