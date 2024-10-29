@@ -31,7 +31,11 @@ export const OrganisationSlice = createSlice({
       state.list = action.payload;
     },
     setCurrentOrganisation: (state: IStateType, action) => {
-      state.currentOrganisation = action.payload;
+      if (action.payload === false) {
+        state.currentOrganisation = initialState.currentOrganisation;
+      } else {
+        state.currentOrganisation = action.payload;
+      }
     },
     updateCurrentOrganisation: (
       state: IStateType,

@@ -37,8 +37,8 @@ const OrganisationDetail = () => {
     }, 10);
     dispatch(
       updateCurrentOrganisation({
-        field: 'name',
-        value: value,
+        field: 'logo',
+        value: url,
       })
     );
   };

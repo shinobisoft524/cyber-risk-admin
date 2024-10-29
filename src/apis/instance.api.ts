@@ -1,10 +1,18 @@
-export async function FPostApi(url: string, reqData: any) {
+export async function FPostApi(url: string, reqData: any, isNoJson = 'json') {
   const res = await fetch(url, {
     method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(reqData),
+    // duplex: 'half',
+    headers:
+      isNoJson === 'form'
+        ? { 'Content-Type': 'multipart/form-data' }
+        : isNoJson == 'enc'
+          ? {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            }
+          : {
+              'Content-Type': 'application/json',
+            },
+    body: isNoJson !== 'json' ? reqData : JSON.stringify(reqData),
   });
   return res.json();
 }

@@ -15,11 +15,14 @@ import { initOrganisation } from '@/store/organisation';
 import {
   createOrganisationAction,
   createOrganisationAssessmentAction,
+  createOrganisationLogoAction,
   getOrganisatioAssessmentDetailAction,
   getOrganisationDetailAction,
+  getOrganisationLogoUrlAction,
 } from '@/actions/orgnisation.action';
 import { useRouter, useSearchParams } from 'next/navigation';
 import TemplateAssignList from './component';
+import useIsReady from '@/app/components/Ready';
 
 const BCrumb = [
   {
@@ -41,6 +44,8 @@ export default function Page() {
     (state: AppState) => state.organisation.currentOrganisation
   );
 
+  const isReady = useIsReady();
+
   const [assessments, setAssessments] = useState<{
     left: any[];
     right: any[];
@@ -58,16 +63,28 @@ export default function Page() {
   });
 
   useEffect(() => {
-    !id && dispatch(initOrganisation());
-    id && getOrganisation(Number(id));
+    if (isReady) {
+      getOrganisation(id);
+    }
     return () => {
-      !id && dispatch(initOrganisation());
+      dispatch(initOrganisation());
     };
-  }, [id]);
+  }, [isReady, id]);
 
-  const getOrganisation = (id: number) => {
-    getOrganisationDetailAction({ id }, dispatch);
-    getOrganisatioAssessmentDetail(id);
+  const getOrganisation = (id: string | null) => {
+    if (id) {
+      getOrganisationDetailAction(
+        {
+          info: {
+            id: Number(id),
+          },
+        },
+        dispatch
+      );
+      getOrganisatioAssessmentDetail(Number(id));
+    } else {
+      dispatch(initOrganisation());
+    }
   };
 
   const getOrganisatioAssessmentDetail = (id: number) => {
@@ -102,24 +119,163 @@ export default function Page() {
     });
   };
 
-  const handleSave = () => {
-    if (currentOrganisation) {
-      createOrganisationAction(
+  async function sendBlob(blob: File) {
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      const base64data = reader.result; // base64 string
+      await fetch('/api/upload', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image: base64data }),
+      });
+    };
+
+    reader.readAsDataURL(blob); // Reads blob as base64
+  }
+
+  const handleSave = async () => {
+    if (currentOrganisation?.logo && id) {
+      const logoUrl = currentOrganisation.logo;
+      const blobResponse = await fetch(logoUrl);
+      const blob = await blobResponse.blob();
+      const logoImg = new File([blob], 'image.jpeg', {
+        type: blob.type,
+      });
+
+      getOrganisationLogoUrlAction(
         {
           reqType: id ? 'update' : 'create',
-          info: currentOrganisation,
+          info: {
+            id: Number(id),
+          },
         },
         dispatch
-      ).then((res: { id: string }) => {
-        if (!!res) {
-          if (id) {
-            router.refresh();
-          } else {
-            router.push(`/organisations/detail?id=${res.id}`);
-          }
+      ).then(async (res: { presignedUrl: string } | false) => {
+        if (res === false) {
+        } else if (res) {
+          console.log(res.presignedUrl);
+
+          const result = await fetch(res.presignedUrl, {
+            method: 'PUT',
+            'Access-Control-Allow-Origin': '*',
+            body: logoImg,
+          });
+          console.log(result);
         }
       });
+
+      //   const reader = new FileReader();
+
+      //   reader.onloadend = async () => {
+      //     const base64data = reader.result;
+
+      //     const encodedData = encodeURIComponent(base64data as any);
+
+      //     getOrganisationLogoUrlAction(
+      //       {
+      //         reqType: id ? 'update' : 'create',
+      //         info: {
+      //           id: Number(id),
+      //         },
+      //       },
+      //       dispatch
+      //     ).then((res: { presignedUrl: string } | false) => {
+      //       if (res === false) {
+      //       } else if (res) {
+      //         console.log(res.presignedUrl);
+      //       }
+      //     });
+
+      //     // createOrganisationLogoAction(
+      //     //   {
+      //     //     reqType: id ? 'update' : 'create',
+      //     //     info: {
+      //     //       id: Number(id),
+      //     //       logo: encodedData as string,
+      //     //     },
+      //     //   },
+      //     //   dispatch
+      //     // ).then((res: { id: string }) => {});
+      //   };
+
+      //   reader.readAsDataURL(logoImg);
+      // }
+      // if (currentOrganisation) {
+      //   createOrganisationAction(
+      //     {
+      //       reqType: id ? 'update' : 'create',
+      //       info: currentOrganisation,
+      //     },
+      //     dispatch
+      //   ).then((res: { id: string }) => {
+      //     if (!!res) {
+      //       if (id) {
+      //         router.refresh();
+      //       } else {
+      //         router.push(`/organisations/detail?id=${res.id}`);
+      //       }
+      //     }
+      //   });
+      // }
     }
+
+    // const handleSave = async () => {
+    //   if (currentOrganisation?.logo) {
+    //     const logoUrl = currentOrganisation.logo;
+
+    //     // Fetch the blob data
+    //     const blobResponse = await fetch(logoUrl);
+    //     const blob = await blobResponse.blob();
+
+    //     console.log(blob);
+
+    //     const myFile = new File([blob], 'image.jpeg', {
+    //       type: blob.type,
+    //     });
+
+    //     console.log(myFile);
+
+    //     // Create FormData to send to the backend
+    //     const formData = new FormData();
+    //     formData.append(
+    //       'file',
+    //       myFile,
+    //       `organisation-logo-id-${currentOrganisation.id.toString()}.jpg`
+    //     ); // You can adjust the file name here
+
+    //     formData.append('reqType', id ? 'update' : 'create');
+    //     formData.append('id', currentOrganisation.id.toString());
+    //     console.log('form data', formData);
+    //     createOrganisationLogoAction(formData, dispatch).then((res: { id: string }) => {
+    //       // if (!!res) {
+    //       //   if (id) {
+    //       //     router.refresh();
+    //       //   } else {
+    //       //     router.push(`/organisations/detail?id=${res.id}`);
+    //       //   }
+    //       // }
+    //     });
+    //   }
+    //   // if (currentOrganisation) {
+    //   //   createOrganisationAction(
+    //   //     {
+    //   //       reqType: id ? 'update' : 'create',
+    //   //       info: currentOrganisation,
+    //   //     },
+    //   //     dispatch
+    //   //   ).then((res: { id: string }) => {
+    //   //     if (!!res) {
+    //   //       if (id) {
+    //   //         router.refresh();
+    //   //       } else {
+    //   //         router.push(`/organisations/detail?id=${res.id}`);
+    //       }
+    //     }
+    //   });
+    // }
   };
 
   const handleAssessmentSave = () => {
