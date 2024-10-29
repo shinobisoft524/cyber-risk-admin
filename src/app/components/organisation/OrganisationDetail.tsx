@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from '@/app/components/forms/theme-elements/CustomTextField';
-import Thumbnail from '@/components/common/Thumbnail';
+import Thumbnail from './Thumbnail';
 import { useDispatch, useSelector } from '@/store/hooks';
 import { AppState } from '@/store/store';
 import { updateCurrentOrganisation } from '@/store/organisation';
+import { ImageUpload } from '@/ccomponents/ImageUpload';
+import useIsReady from '../Ready';
 
 const OrganisationDetail = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,55 @@ const OrganisationDetail = () => {
   );
 
   const name = useSelector((state: AppState) => state.organisation.currentOrganisation?.name);
+
+  const isReady = useIsReady();
+
+  const [avatarUrl, setAvatarUrl] = useState('/images/avatars/empty.png');
+  const [isStartCrop, setIsStartCrop] = useState(false);
+
+  const handleUpdateAvatarUrl = (url: string) => {
+    setAvatarUrl(url);
+    setIsStartCrop(true);
+  };
+
+  const handleCropedUrl = (url: string) => {
+    setAvatarUrl(url);
+    setTimeout(() => {
+      setIsStartCrop(false);
+    }, 10);
+    dispatch(
+      updateCurrentOrganisation({
+        field: 'name',
+        value: value,
+      })
+    );
+  };
+
+  const CropPanel: React.FC<{ handleSave: () => void; handleCancel: () => void }> = (props) => {
+    return (
+      <Stack direction="row" spacing={2} mt={3}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            props.handleSave();
+          }}
+        >
+          Crop
+        </Button>
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => {
+            props.handleCancel();
+            setIsStartCrop(false);
+          }}
+        >
+          Cancel
+        </Button>
+      </Stack>
+    );
+  };
 
   return (
     <Box p={3}>
@@ -53,10 +104,51 @@ const OrganisationDetail = () => {
             &nbsp;Organisation Logo{' '}
           </CustomFormLabel>
         </Grid>
-        <Grid item xs={12} display="flex" alignItems="center">
-          <Thumbnail />
-        </Grid>
 
+        {!isStartCrop && (
+          <Grid item xs={12} display="flex" alignItems="center">
+            <Thumbnail
+              avatarUrl={avatarUrl}
+              handleUpdateAvatarUrl={(url: string) => handleUpdateAvatarUrl(url)}
+            />
+          </Grid>
+        )}
+        {isStartCrop && (
+          <Grid item mt={2} xs={12} display="flex" alignItems="center">
+            <ImageUpload
+              handleOk={handleCropedUrl}
+              imageUrl={avatarUrl}
+              containerStyle={{
+                width: '100%',
+              }}
+              controlStyle={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+                padding: '8px 0px',
+              }}
+              cropContainerStyle={{
+                position: 'relative',
+                height: 300,
+              }}
+              cropperStyle={{
+                containerStyle: {
+                  // width: 300,
+                  height: 300,
+                },
+                mediaStyle: {
+                  // width: 300,
+                  height: 300,
+                },
+                cropAreaStyle: {
+                  width: 150,
+                  height: 150,
+                },
+              }}
+              ControlPanel={CropPanel}
+            />
+          </Grid>
+        )}
         <Grid item mt={2} xs={12} display="flex" alignItems="center">
           <CustomFormLabel htmlFor="p_name" sx={{ mt: 0 }}>
             &nbsp;Address{' '}

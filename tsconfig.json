@@ -27,6 +27,7 @@
       "@/lib/*": ["./src/lib/*"],
       "@/cmodels": ["./packages/models/index"],
       "@/cvalidations": ["./packages/validations/index"],
+      "@/ccomponents/*": ["./packages/modules//components/*"],
       "@/cprisma": ["./packages/models/build.d"]
     }
   },
