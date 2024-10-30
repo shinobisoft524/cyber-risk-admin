@@ -119,162 +119,111 @@ export default function Page() {
     });
   };
 
-  async function sendBlob(blob: File) {
-    const reader = new FileReader();
-
-    reader.onloadend = async () => {
-      const base64data = reader.result; // base64 string
-      await fetch('/api/upload', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ image: base64data }),
-      });
-    };
-
-    reader.readAsDataURL(blob); // Reads blob as base64
-  }
-
   const handleSave = async () => {
-    if (currentOrganisation?.logo && id) {
-      const logoUrl = currentOrganisation.logo;
-      const blobResponse = await fetch(logoUrl);
-      const blob = await blobResponse.blob();
-      const logoImg = new File([blob], 'image.jpeg', {
-        type: blob.type,
-      });
-
-      getOrganisationLogoUrlAction(
+    if (currentOrganisation) {
+      createOrganisationAction(
         {
           reqType: id ? 'update' : 'create',
-          info: {
-            id: Number(id),
-          },
+          info: currentOrganisation,
         },
         dispatch
-      ).then(async (res: { presignedUrl: string } | false) => {
-        if (res === false) {
-        } else if (res) {
-          console.log(res.presignedUrl);
+      ).then(async (res: { id: string }) => {
+        const orgId = res.id;
+        if (!!res) {
+          if (currentOrganisation?.logo && currentOrganisation?.isLogoUpdated && orgId) {
+            const logoUrl = currentOrganisation.logo;
+            const blobResponse = await fetch(logoUrl);
+            const blob = await blobResponse.blob();
+            const logoImg = new File([blob], 'image.jpeg', {
+              type: blob.type,
+            });
 
-          const result = await fetch(res.presignedUrl, {
-            method: 'PUT',
-            'Access-Control-Allow-Origin': '*',
-            body: logoImg,
-          });
-          console.log(result);
+            getOrganisationLogoUrlAction(
+              {
+                reqType: orgId ? 'update' : 'create',
+                info: {
+                  id: Number(orgId),
+                },
+              },
+              dispatch
+            ).then(async (res: { presignedUrl: string } | false) => {
+              if (res === false) {
+              } else if (res) {
+                console.log(res.presignedUrl);
+
+                const result = await fetch(res.presignedUrl, {
+                  method: 'PUT',
+                  body: logoImg,
+                });
+                // console.log('result', result);
+                // if (result && result.status === 200) {
+                // }
+                if (id) {
+                  getOrganisation(orgId);
+                } else {
+                  window.location.href = `/organisations/detail?id=${orgId}`;
+                }
+              }
+            });
+          } else {
+            if (id) {
+              getOrganisation(orgId);
+            } else {
+              window.location.href = `/organisations/detail?id=${orgId}`;
+            }
+          }
         }
       });
-
-      //   const reader = new FileReader();
-
-      //   reader.onloadend = async () => {
-      //     const base64data = reader.result;
-
-      //     const encodedData = encodeURIComponent(base64data as any);
-
-      //     getOrganisationLogoUrlAction(
-      //       {
-      //         reqType: id ? 'update' : 'create',
-      //         info: {
-      //           id: Number(id),
-      //         },
-      //       },
-      //       dispatch
-      //     ).then((res: { presignedUrl: string } | false) => {
-      //       if (res === false) {
-      //       } else if (res) {
-      //         console.log(res.presignedUrl);
-      //       }
-      //     });
-
-      //     // createOrganisationLogoAction(
-      //     //   {
-      //     //     reqType: id ? 'update' : 'create',
-      //     //     info: {
-      //     //       id: Number(id),
-      //     //       logo: encodedData as string,
-      //     //     },
-      //     //   },
-      //     //   dispatch
-      //     // ).then((res: { id: string }) => {});
-      //   };
-
-      //   reader.readAsDataURL(logoImg);
-      // }
-      // if (currentOrganisation) {
-      //   createOrganisationAction(
-      //     {
-      //       reqType: id ? 'update' : 'create',
-      //       info: currentOrganisation,
-      //     },
-      //     dispatch
-      //   ).then((res: { id: string }) => {
-      //     if (!!res) {
-      //       if (id) {
-      //         router.refresh();
-      //       } else {
-      //         router.push(`/organisations/detail?id=${res.id}`);
-      //       }
-      //     }
-      //   });
-      // }
     }
 
-    // const handleSave = async () => {
-    //   if (currentOrganisation?.logo) {
-    //     const logoUrl = currentOrganisation.logo;
+    // if (currentOrganisation?.logo && currentOrganisation?.isLogoUpdated && id) {
+    //   const logoUrl = currentOrganisation.logo;
+    //   const blobResponse = await fetch(logoUrl);
+    //   const blob = await blobResponse.blob();
+    //   const logoImg = new File([blob], 'image.jpeg', {
+    //     type: blob.type,
+    //   });
 
-    //     // Fetch the blob data
-    //     const blobResponse = await fetch(logoUrl);
-    //     const blob = await blobResponse.blob();
+    //   getOrganisationLogoUrlAction(
+    //     {
+    //       reqType: id ? 'update' : 'create',
+    //       info: {
+    //         id: Number(id),
+    //       },
+    //     },
+    //     dispatch
+    //   ).then(async (res: { presignedUrl: string } | false) => {
+    //     if (res === false) {
+    //     } else if (res) {
+    //       console.log(res.presignedUrl);
 
-    //     console.log(blob);
-
-    //     const myFile = new File([blob], 'image.jpeg', {
-    //       type: blob.type,
-    //     });
-
-    //     console.log(myFile);
-
-    //     // Create FormData to send to the backend
-    //     const formData = new FormData();
-    //     formData.append(
-    //       'file',
-    //       myFile,
-    //       `organisation-logo-id-${currentOrganisation.id.toString()}.jpg`
-    //     ); // You can adjust the file name here
-
-    //     formData.append('reqType', id ? 'update' : 'create');
-    //     formData.append('id', currentOrganisation.id.toString());
-    //     console.log('form data', formData);
-    //     createOrganisationLogoAction(formData, dispatch).then((res: { id: string }) => {
-    //       // if (!!res) {
-    //       //   if (id) {
-    //       //     router.refresh();
-    //       //   } else {
-    //       //     router.push(`/organisations/detail?id=${res.id}`);
-    //       //   }
-    //       // }
-    //     });
-    //   }
-    //   // if (currentOrganisation) {
-    //   //   createOrganisationAction(
-    //   //     {
-    //   //       reqType: id ? 'update' : 'create',
-    //   //       info: currentOrganisation,
-    //   //     },
-    //   //     dispatch
-    //   //   ).then((res: { id: string }) => {
-    //   //     if (!!res) {
-    //   //       if (id) {
-    //   //         router.refresh();
-    //   //       } else {
-    //   //         router.push(`/organisations/detail?id=${res.id}`);
+    //       const result = await fetch(res.presignedUrl, {
+    //         method: 'PUT',
+    //         body: logoImg,
+    //       });
+    //       console.log('result', result);
+    //       if (result && result.status === 200) {
     //       }
     //     }
     //   });
+
+    //   if (currentOrganisation) {
+    //     createOrganisationAction(
+    //       {
+    //         reqType: id ? 'update' : 'create',
+    //         info: currentOrganisation,
+    //       },
+    //       dispatch
+    //     ).then((res: { id: string }) => {
+    //       if (!!res) {
+    //         if (id) {
+    //           router.refresh();
+    //         } else {
+    //           router.push(`/organisations/detail?id=${res.id}`);
+    //         }
+    //       }
+    //     });
+    //   }
     // }
   };
 
@@ -363,24 +312,30 @@ export default function Page() {
         </Button>
       </Stack>
 
-      <Grid container spacing={3}>
-        <Grid item lg={12}>
-          <Stack mt={3} spacing={3}>
-            <BlankCard>
-              <TemplateAssignList handleUpdate={handleUpdate} list={assessments} />
-            </BlankCard>
-          </Stack>
-        </Grid>
-      </Grid>
+      {id ? (
+        <>
+          <Grid container spacing={3}>
+            <Grid item lg={12}>
+              <Stack mt={3} spacing={3}>
+                <BlankCard>
+                  <TemplateAssignList handleUpdate={handleUpdate} list={assessments} />
+                </BlankCard>
+              </Stack>
+            </Grid>
+          </Grid>
 
-      <Stack direction="row" spacing={2} mt={3}>
-        <Button variant="contained" color="primary" onClick={handleAssessmentSave}>
-          Save Changes
-        </Button>
-        <Button variant="outlined" color="error">
-          Cancel
-        </Button>
-      </Stack>
+          <Stack direction="row" spacing={2} mt={3}>
+            <Button variant="contained" color="primary" onClick={handleAssessmentSave}>
+              Save Changes
+            </Button>
+            <Button variant="outlined" color="error">
+              Cancel
+            </Button>
+          </Stack>
+        </>
+      ) : (
+        <></>
+      )}
     </PageContainer>
   );
 }

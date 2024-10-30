@@ -7,7 +7,7 @@ export interface ICurrentOrganisationType extends Organisation {
 
 interface IStateType {
   list: Organisation[];
-  currentOrganisation?: ICurrentOrganisationType;
+  currentOrganisation?: ICurrentOrganisationType & { isLogoUpdated?: boolean };
 }
 
 const initialState: IStateType = {

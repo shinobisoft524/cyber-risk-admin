@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import useIsReady from '../Ready';
@@ -17,6 +17,12 @@ const Thumbnail = ({
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(avatarUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isReady) {
+      setImageUrl(avatarUrl);
+    }
+  }, [avatarUrl, isReady]);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();

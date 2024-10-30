@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Button, Stack, Typography } from '@mui/material';
 import { Grid } from '@mui/material';
@@ -25,6 +25,12 @@ const OrganisationDetail = () => {
   const [avatarUrl, setAvatarUrl] = useState('/images/avatars/empty.png');
   const [isStartCrop, setIsStartCrop] = useState(false);
 
+  useEffect(() => {
+    if (isReady) {
+      setAvatarUrl(currentOrganisation?.logo || '/images/avatars/empty.png');
+    }
+  }, [currentOrganisation, isReady]);
+
   const handleUpdateAvatarUrl = (url: string) => {
     setAvatarUrl(url);
     setIsStartCrop(true);
@@ -39,6 +45,12 @@ const OrganisationDetail = () => {
       updateCurrentOrganisation({
         field: 'logo',
         value: url,
+      })
+    );
+    dispatch(
+      updateCurrentOrganisation({
+        field: 'isLogoUpdated' as any,
+        value: true,
       })
     );
   };
