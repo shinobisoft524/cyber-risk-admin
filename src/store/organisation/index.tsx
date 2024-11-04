@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Organisation, User } from '@/cmodels';
+import { Organisation, User } from '@/cprisma';
 
 export interface ICurrentOrganisationType extends Organisation {
   Owner?: User;
@@ -7,7 +7,7 @@ export interface ICurrentOrganisationType extends Organisation {
 
 interface IStateType {
   list: Organisation[];
-  currentOrganisation?: ICurrentOrganisationType;
+  currentOrganisation?: ICurrentOrganisationType & { isLogoUpdated?: boolean };
 }
 
 const initialState: IStateType = {
@@ -25,10 +25,17 @@ export const OrganisationSlice = createSlice({
       state = initialState;
     },
     setList: (state: IStateType, action) => {
+      if (action.payload === false) {
+        state.list = [];
+      }
       state.list = action.payload;
     },
     setCurrentOrganisation: (state: IStateType, action) => {
-      state.currentOrganisation = action.payload;
+      if (action.payload === false) {
+        state.currentOrganisation = initialState.currentOrganisation;
+      } else {
+        state.currentOrganisation = action.payload;
+      }
     },
     updateCurrentOrganisation: (
       state: IStateType,

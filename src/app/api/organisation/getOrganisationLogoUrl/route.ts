@@ -3,5 +3,5 @@ import { type NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const reqData = await req.json();
-  return await BPostApi(req, 'template/detail', reqData);
+  return await BPostApi(req, 'file/getOrganisationLogoUrl', reqData);
 }

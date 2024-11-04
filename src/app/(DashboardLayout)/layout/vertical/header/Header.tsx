@@ -6,11 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from '@/store/hooks';
-import {
-  toggleSidebar,
-  toggleMobileSidebar,
-  setDarkMode,
-} from '@/store/customizer/CustomizerSlice';
+import { toggleSidebar, toggleMobileSidebar, setDarkMode } from '@/store/customizer';
 import { IconMenu2, IconMoon, IconSun } from '@tabler/icons-react';
 import Notifications from './Notification';
 import Profile from './Profile';

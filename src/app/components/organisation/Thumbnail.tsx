@@ -1,13 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import useIsReady from '../Ready';
 
-const Thumbnail = () => {
+const Thumbnail = ({
+  avatarUrl,
+  handleUpdateAvatarUrl,
+}: {
+  avatarUrl: string;
+  handleUpdateAvatarUrl: (url: string) => void;
+}) => {
+  const isReady = useIsReady();
+
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>('/images/assessment/no-logo.jpg');
+  const [imageUrl, setImageUrl] = useState<string | null>(avatarUrl);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isReady) {
+      setImageUrl(avatarUrl);
+    }
+  }, [avatarUrl, isReady]);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -40,6 +55,7 @@ const Thumbnail = () => {
 
     // Set the image file for upload
     setImageFile(file);
+    handleUpdateAvatarUrl(URL.createObjectURL(file));
   };
 
   return (

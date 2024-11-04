@@ -1,37 +1,45 @@
 import {
   createOrganisationApi,
   createOrganisationAssessmentApi,
+  createOrganisationLogoApi,
   getOrganisatioAssessmentDetailApi,
   getOrganisationDetailApi,
   getOrganisationListApi,
+  getOrganisationLogoUrlApi,
 } from '@/apis/organisation.api';
 import { AnyAction, Dispatch } from '@reduxjs/toolkit';
-import {
-  ICurrentOrganisationType,
-  setCurrentOrganisation,
-  setList,
-} from '@/store/organisation/OrganisationSlice';
+import { ICurrentOrganisationType, setCurrentOrganisation, setList } from '@/store/organisation';
 import { IOrganisationAssessmentDetailReq, IStandardReq } from '@/cmodels';
+import { commonAction } from './common';
 
 export async function createOrganisationAction(
-  data: IStandardReq<ICurrentOrganisationType>,
+  reqData: IStandardReq<ICurrentOrganisationType>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createOrganisationApi(data)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    })
-    .catch(() => {
-      return false;
-    });
+  return commonAction(createOrganisationApi, reqData, _dispatch);
+}
+
+export async function createOrganisationLogoAction(
+  reqData: IStandardReq<{
+    id: number;
+    logo: string;
+  }>,
+  _dispatch: Dispatch<AnyAction>
+) {
+  return commonAction(createOrganisationLogoApi, reqData, _dispatch);
+}
+
+export async function getOrganisationLogoUrlAction(
+  reqData: IStandardReq<{
+    id: number;
+  }>,
+  _dispatch: Dispatch<AnyAction>
+) {
+  return commonAction(getOrganisationLogoUrlApi, reqData);
 }
 
 export async function createOrganisationAssessmentAction(
-  data: IStandardReq<{
+  reqData: IStandardReq<{
     organisationId: number;
     value: {
       id: number;
@@ -40,77 +48,30 @@ export async function createOrganisationAssessmentAction(
   }>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createOrganisationAssessmentApi(data)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return true;
-      }
-    })
-    .catch(() => {
-      return false;
-    });
+  return commonAction(createOrganisationAssessmentApi, reqData, _dispatch);
 }
 
 export async function getOrganisationListAction(
-  data: ICurrentOrganisationType,
+  reqData: IStandardReq<{
+    filter: any;
+  }>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getOrganisationListApi(data)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        console.log(res.data);
-        _dispatch(setList(res.data));
-        return true;
-      } else {
-        _dispatch(setList([]));
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      _dispatch(setList([]));
-      return false;
-    });
+  return commonAction(getOrganisationListApi, reqData, _dispatch, setList);
 }
 
 export async function getOrganisationDetailAction(
-  data: { id: number },
+  reqData: IStandardReq<{
+    id: number;
+  }>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getOrganisationDetailApi(data)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        console.log(res.data);
-        _dispatch(setCurrentOrganisation(res.data));
-        return true;
-      } else {
-        _dispatch(setCurrentOrganisation({}));
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      _dispatch(setCurrentOrganisation({}));
-      return false;
-    });
+  return commonAction(getOrganisationDetailApi, reqData, _dispatch, setCurrentOrganisation);
 }
 
 export async function getOrganisatioAssessmentDetailAction(
-  data: IStandardReq<IOrganisationAssessmentDetailReq>,
+  reqData: IStandardReq<IOrganisationAssessmentDetailReq>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getOrganisatioAssessmentDetailApi(data)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        console.log(res.data);
-        return res.data;
-      } else {
-        _dispatch(setCurrentOrganisation({}));
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      _dispatch(setCurrentOrganisation({}));
-      return false;
-    });
+  return commonAction(getOrganisatioAssessmentDetailApi, reqData, _dispatch);
 }

@@ -9,6 +9,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { AppState } from '@/store/store';
 import '@/utils/i18n';
 import '@/app/api/index';
+import NotifiactionContainer from './notification-container';
 
 const MyApp = ({ children }: { children: React.ReactNode }) => {
   const theme = ThemeSettings();
@@ -22,6 +23,7 @@ const MyApp = ({ children }: { children: React.ReactNode }) => {
             <CssBaseline />
             {children}
           </RTL>
+          <NotifiactionContainer />
         </ThemeProvider>
       </AppRouterCacheProvider>
     </>

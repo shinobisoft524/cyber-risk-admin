@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from '@/store/hooks';
-import { setLanguage } from '@/store/customizer/CustomizerSlice';
+import { setLanguage } from '@/store/customizer';
 import { Stack } from '@mui/system';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';

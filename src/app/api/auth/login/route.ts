@@ -4,13 +4,12 @@ import { cookies } from 'next/headers';
 export async function POST(req: NextRequest) {
   const reqData = await req.json();
   console.log('----login check:', reqData);
-  console.log('----login check:', `${process.env.NEXT_PUBLIC_API_URL}user/login`);
-  const resData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}user/login`, {
+  const resData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}v1/auth/login`, {
     method: 'post',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ user: reqData.user }),
+    body: JSON.stringify(reqData),
   });
   const res = await resData.json();
   console.log(res);

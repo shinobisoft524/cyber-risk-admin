@@ -6,13 +6,8 @@ import {
   getTemplateDetailApi,
   getTemplateListApi,
 } from '@/apis/template.api';
-import {
-  IStandardReq,
-  ITemplateCreateReq,
-  ITemplateDetailReq,
-  ITemplateListReq,
-  User,
-} from '@/cmodels';
+import { IStandardReq, ITemplateCreateReq, ITemplateDetailReq, ITemplateListReq } from '@/cmodels';
+import { User } from '@/cprisma';
 
 export async function createTemplatAction(
   reqData: IStandardReq<ITemplateCreateReq>,

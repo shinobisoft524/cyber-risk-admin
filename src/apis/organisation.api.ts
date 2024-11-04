@@ -1,28 +1,42 @@
-import { PostApi } from './instance.api';
+import { IStandardReq } from '@/cmodels';
+import { FPostApi } from './instance.api';
 
 export const createOrganisationApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/create`, { reqData: data });
+  return await FPostApi(`/api/organisation/create`, { reqData: data });
+};
+
+export const createOrganisationLogoApi = async (data: unknown) => {
+  return await FPostApi(`/api/organisation/createLogo`, { reqData: data }, 'enc');
+
+  // const res = await fetch('http://localhost:3001/api/v1/file/uploadOrganisationLogo', {
+  //   method: 'post',
+  //   // duplex: 'half',
+  //   // headers: isNoJson
+  //   //   ? { 'Content-Type': 'multipart/form-data' }
+  //   //   : {
+  //   //       'Content-Type': 'application/json',
+  //   //     },
+  //   body: data,
+  // });
+  // return res.json();
+};
+
+export const getOrganisationLogoUrlApi = async (data: unknown) => {
+  return await FPostApi(`/api/organisation/getOrganisationLogoUrl`, { reqData: data });
 };
 
 export const createOrganisationAssessmentApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/createOrganisationAssessment`, { reqData: data });
+  return await FPostApi(`/api/organisation/createOrganisationAssessment`, { reqData: data });
 };
 
 export const getOrganisationListApi = async (data: unknown) => {
-  const res = await fetch(`/api/organisation/list`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ organisation: null }),
-  });
-  return res.json();
+  return await FPostApi(`/api/organisation/list`, { reqData: data });
 };
 
 export const getOrganisationDetailApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/detail`, { reqData: data });
+  return await FPostApi(`/api/organisation/detail`, { reqData: data });
 };
 
 export const getOrganisatioAssessmentDetailApi = async (data: unknown) => {
-  return await PostApi(`/api/organisation/assessmentDetail`, { reqData: data });
+  return await FPostApi(`/api/organisation/assessmentDetail`, { reqData: data });
 };

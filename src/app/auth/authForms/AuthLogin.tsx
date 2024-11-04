@@ -14,8 +14,8 @@ import CustomTextField from '@/app/components/forms/theme-elements/CustomTextFie
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import AuthSocialButtons from './AuthSocialButtons';
 import { useDispatch } from '@/store/hooks';
-import { login as _login, expired as _expired } from '@/actions/auth';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { loginAction, expired as _expired } from '@/actions/auth';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const router = useRouter();
@@ -37,7 +37,12 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
   const handleLogin = async () => {
     const data = { email, password };
-    _login(data, dispatch).then((res: any) => {
+    loginAction(
+      {
+        info: data,
+      },
+      dispatch
+    ).then((res: boolean) => {
       if (res === true) {
         router.push('/dashboard');
       }

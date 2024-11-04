@@ -7,10 +7,7 @@ import CustomTextField from '@/app/components/forms/theme-elements/CustomTextFie
 import TransferList from '@/components/common/TransferList';
 import { useDispatch, useSelector } from '@/store/hooks';
 import { AppState } from '@/store/store';
-import {
-  updateCurrentOrganisation,
-  updateCurrentOrganisationOwner,
-} from '@/store/organisation/OrganisationSlice';
+import { updateCurrentOrganisation, updateCurrentOrganisationOwner } from '@/store/organisation';
 
 const OwnerDetail = () => {
   const dispatch = useDispatch();

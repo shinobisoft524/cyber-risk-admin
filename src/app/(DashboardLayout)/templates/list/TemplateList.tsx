@@ -4,7 +4,6 @@ import * as React from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Paper from '@mui/material/Paper';
@@ -23,14 +22,14 @@ import Typography from '@mui/material/Typography';
 import { visuallyHidden } from '@mui/utils';
 import { useSelector, useDispatch } from '@/store/hooks';
 import CustomCheckbox from '@/components/forms/theme-elements/CustomCheckbox';
-import CustomSwitch from '@/components/forms/theme-elements/CustomSwitch';
 import { IconEdit, IconEye, IconFilter, IconSearch, IconTrash } from '@tabler/icons-react';
-import { Organisation } from '@/cmodels';
+
 import { ChangeEvent, useEffect, useState } from 'react';
 import { AppState } from '@/store/store';
 import { useRouter } from 'next/navigation';
 import { getTemplateListAction } from '@/actions/template.action';
 import { Button } from '@mui/material';
+import { Organisation } from '@/cprisma';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

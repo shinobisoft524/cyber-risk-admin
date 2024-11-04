@@ -23,12 +23,13 @@ import { visuallyHidden } from '@mui/utils';
 import { useSelector, useDispatch } from '@/store/hooks';
 import CustomCheckbox from '@/components/forms/theme-elements/CustomCheckbox';
 import { IconEdit, IconEye, IconFilter, IconSearch, IconTrash } from '@tabler/icons-react';
-import { Organisation } from '@/cmodels';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { getOrganisationListAction } from '@/actions/orgnisation.action';
 import { AppState } from '@/store/store';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
+import { Organisation } from '@/cprisma';
+import useIsReady from '@/app/components/Ready';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -218,6 +219,8 @@ const OrganisationList = () => {
   const router = useRouter();
   const list = useSelector((state: AppState) => state.organisation.list);
 
+  const isReady = useIsReady();
+
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<any>('calories');
   const [selected, setSelected] = useState<readonly string[]>([]);
@@ -230,15 +233,15 @@ const OrganisationList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getOrganisations();
-  }, []);
+    isReady && getOrganisations();
+  }, [isReady]);
 
   useEffect(() => {
-    setRows(list as any);
-  }, [list]);
+    isReady && setRows(list as any);
+  }, [isReady, list]);
 
   const getOrganisations = () => {
-    getOrganisationListAction(null as any, dispatch);
+    getOrganisationListAction({}, dispatch);
   };
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {

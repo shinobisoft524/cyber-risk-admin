@@ -7,7 +7,7 @@ import CustomTextField from '@/app/components/forms/theme-elements/CustomTextFie
 import Thumbnail from '@/components/common/Thumbnail';
 import { useDispatch, useSelector } from '@/store/hooks';
 import { AppState } from '@/store/store';
-import { updateCurrentOrganisation } from '@/store/organisation/OrganisationSlice';
+import { updateCurrentOrganisation } from '@/store/organisation';
 import QuillEdit from '@/app/components/forms/form-quill/QuillEdit';
 import { createTemplatAction } from '@/actions/template.action';
 

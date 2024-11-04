@@ -11,15 +11,18 @@ import { useSelector } from 'react-redux';
 import { AppState } from '@/store/store';
 import { useEffect, useState } from 'react';
 import { useDispatch } from '@/store/hooks';
-import { initOrganisation } from '@/store/organisation/OrganisationSlice';
+import { initOrganisation } from '@/store/organisation';
 import {
   createOrganisationAction,
   createOrganisationAssessmentAction,
+  createOrganisationLogoAction,
   getOrganisatioAssessmentDetailAction,
   getOrganisationDetailAction,
+  getOrganisationLogoUrlAction,
 } from '@/actions/orgnisation.action';
 import { useRouter, useSearchParams } from 'next/navigation';
 import TemplateAssignList from './component';
+import useIsReady from '@/app/components/Ready';
 
 const BCrumb = [
   {
@@ -41,6 +44,8 @@ export default function Page() {
     (state: AppState) => state.organisation.currentOrganisation
   );
 
+  const isReady = useIsReady();
+
   const [assessments, setAssessments] = useState<{
     left: any[];
     right: any[];
@@ -58,16 +63,28 @@ export default function Page() {
   });
 
   useEffect(() => {
-    !id && dispatch(initOrganisation());
-    id && getOrganisation(Number(id));
+    if (isReady) {
+      getOrganisation(id);
+    }
     return () => {
-      !id && dispatch(initOrganisation());
+      dispatch(initOrganisation());
     };
-  }, [id]);
+  }, [isReady, id]);
 
-  const getOrganisation = (id: number) => {
-    getOrganisationDetailAction({ id }, dispatch);
-    getOrganisatioAssessmentDetail(id);
+  const getOrganisation = (id: string | null) => {
+    if (id) {
+      getOrganisationDetailAction(
+        {
+          info: {
+            id: Number(id),
+          },
+        },
+        dispatch
+      );
+      getOrganisatioAssessmentDetail(Number(id));
+    } else {
+      dispatch(initOrganisation());
+    }
   };
 
   const getOrganisatioAssessmentDetail = (id: number) => {
@@ -102,7 +119,7 @@ export default function Page() {
     });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (currentOrganisation) {
       createOrganisationAction(
         {
@@ -110,16 +127,104 @@ export default function Page() {
           info: currentOrganisation,
         },
         dispatch
-      ).then((res: { id: string }) => {
+      ).then(async (res: { id: string }) => {
+        const orgId = res.id;
         if (!!res) {
-          if (id) {
-            router.refresh();
+          if (currentOrganisation?.logo && currentOrganisation?.isLogoUpdated && orgId) {
+            const logoUrl = currentOrganisation.logo;
+            const blobResponse = await fetch(logoUrl);
+            const blob = await blobResponse.blob();
+            const logoImg = new File([blob], 'image.jpeg', {
+              type: blob.type,
+            });
+
+            getOrganisationLogoUrlAction(
+              {
+                reqType: orgId ? 'update' : 'create',
+                info: {
+                  id: Number(orgId),
+                },
+              },
+              dispatch
+            ).then(async (res: { presignedUrl: string } | false) => {
+              if (res === false) {
+              } else if (res) {
+                console.log(res.presignedUrl);
+
+                const result = await fetch(res.presignedUrl, {
+                  method: 'PUT',
+                  body: logoImg,
+                });
+                // console.log('result', result);
+                // if (result && result.status === 200) {
+                // }
+                if (id) {
+                  getOrganisation(orgId);
+                } else {
+                  window.location.href = `/organisations/detail?id=${orgId}`;
+                }
+              }
+            });
           } else {
-            router.push(`/organisations/detail?id=${res.id}`);
+            if (id) {
+              getOrganisation(orgId);
+            } else {
+              window.location.href = `/organisations/detail?id=${orgId}`;
+            }
           }
         }
       });
     }
+
+    // if (currentOrganisation?.logo && currentOrganisation?.isLogoUpdated && id) {
+    //   const logoUrl = currentOrganisation.logo;
+    //   const blobResponse = await fetch(logoUrl);
+    //   const blob = await blobResponse.blob();
+    //   const logoImg = new File([blob], 'image.jpeg', {
+    //     type: blob.type,
+    //   });
+
+    //   getOrganisationLogoUrlAction(
+    //     {
+    //       reqType: id ? 'update' : 'create',
+    //       info: {
+    //         id: Number(id),
+    //       },
+    //     },
+    //     dispatch
+    //   ).then(async (res: { presignedUrl: string } | false) => {
+    //     if (res === false) {
+    //     } else if (res) {
+    //       console.log(res.presignedUrl);
+
+    //       const result = await fetch(res.presignedUrl, {
+    //         method: 'PUT',
+    //         body: logoImg,
+    //       });
+    //       console.log('result', result);
+    //       if (result && result.status === 200) {
+    //       }
+    //     }
+    //   });
+
+    //   if (currentOrganisation) {
+    //     createOrganisationAction(
+    //       {
+    //         reqType: id ? 'update' : 'create',
+    //         info: currentOrganisation,
+    //       },
+    //       dispatch
+    //     ).then((res: { id: string }) => {
+    //       if (!!res) {
+    //         if (id) {
+    //           router.refresh();
+    //         } else {
+    //           router.push(`/organisations/detail?id=${res.id}`);
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
   };
 
   const handleAssessmentSave = () => {
@@ -207,24 +312,30 @@ export default function Page() {
         </Button>
       </Stack>
 
-      <Grid container spacing={3}>
-        <Grid item lg={12}>
-          <Stack mt={3} spacing={3}>
-            <BlankCard>
-              <TemplateAssignList handleUpdate={handleUpdate} list={assessments} />
-            </BlankCard>
-          </Stack>
-        </Grid>
-      </Grid>
+      {id ? (
+        <>
+          <Grid container spacing={3}>
+            <Grid item lg={12}>
+              <Stack mt={3} spacing={3}>
+                <BlankCard>
+                  <TemplateAssignList handleUpdate={handleUpdate} list={assessments} />
+                </BlankCard>
+              </Stack>
+            </Grid>
+          </Grid>
 
-      <Stack direction="row" spacing={2} mt={3}>
-        <Button variant="contained" color="primary" onClick={handleAssessmentSave}>
-          Save Changes
-        </Button>
-        <Button variant="outlined" color="error">
-          Cancel
-        </Button>
-      </Stack>
+          <Stack direction="row" spacing={2} mt={3}>
+            <Button variant="contained" color="primary" onClick={handleAssessmentSave}>
+              Save Changes
+            </Button>
+            <Button variant="outlined" color="error">
+              Cancel
+            </Button>
+          </Stack>
+        </>
+      ) : (
+        <></>
+      )}
     </PageContainer>
   );
 }
