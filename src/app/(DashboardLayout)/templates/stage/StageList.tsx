@@ -409,12 +409,12 @@ const StageList = (props: { list: any[] }) => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <Box ml={2}>
+        {/* <Box ml={2}>
           <FormControlLabel
             control={<CustomSwitch checked={dense} onChange={handleChangeDense} />}
             label="Dense padding"
           />
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
