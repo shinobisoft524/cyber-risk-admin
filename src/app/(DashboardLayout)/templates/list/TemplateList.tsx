@@ -30,6 +30,7 @@ import { useRouter } from 'next/navigation';
 import { getTemplateListAction } from '@/actions/template.action';
 import { Button } from '@mui/material';
 import { Organisation } from '@/cprisma';
+import useIsReady from '@/app/components/Ready';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -93,6 +94,18 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: 'Status',
+  },
+  {
+    id: 'stage-1',
+    numeric: false,
+    disablePadding: false,
+    label: 'Stage 1',
+  },
+  {
+    id: 'stage-2',
+    numeric: false,
+    disablePadding: false,
+    label: 'Stage 2',
   },
   {
     id: 'action',
@@ -219,6 +232,8 @@ const TemplateList = () => {
   const router = useRouter();
   const list = useSelector((state: AppState) => state.organisation.list);
 
+  const isReady = useIsReady();
+
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<any>('calories');
   const [selected, setSelected] = useState<readonly string[]>([]);
@@ -231,8 +246,8 @@ const TemplateList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getTemplateList();
-  }, []);
+    if (isReady) getTemplateList();
+  }, [isReady]);
 
   useEffect(() => {
     setRows(list as any);
@@ -312,6 +327,7 @@ const TemplateList = () => {
   const theme = useTheme();
   const borderColor = theme.palette.divider;
 
+  if (!isReady) return <></>;
   return (
     <Box>
       <Box>
@@ -410,11 +426,31 @@ const TemplateList = () => {
                         </TableCell>
 
                         <TableCell align="left">
-                          <Tooltip title="View Stage">
-                            <IconButton color="primary">
+                          <Tooltip title="View Stage 1">
+                            <IconButton
+                              onClick={() =>
+                                router.push(`/templates/stage?id=1&templateId=${row.id}`)
+                              }
+                              color="primary"
+                            >
                               <IconEye width={22} />
                             </IconButton>
                           </Tooltip>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Tooltip title="View Stage 2">
+                            <IconButton
+                              onClick={() =>
+                                router.push(`/templates/stage?id=2&templateId=${row.id}`)
+                              }
+                              color="primary"
+                            >
+                              <IconEye width={22} />
+                            </IconButton>
+                          </Tooltip>
+                        </TableCell>
+
+                        <TableCell align="left">
                           <Tooltip title="Edit template">
                             <IconButton
                               onClick={() => router.push(`/templates/detail?id=${row.id}`)}

@@ -8,56 +8,64 @@ import {
 } from '@/apis/template.api';
 import { IStandardReq, ITemplateCreateReq, ITemplateDetailReq, ITemplateListReq } from '@/cmodels';
 import { User } from '@/cprisma';
+import { commonAction } from './common';
 
 export async function createTemplatAction(
-  reqData: IStandardReq<ITemplateCreateReq>,
+  reqData: IStandardReq<{
+    id?: number;
+    name: string;
+    description?: string;
+  }>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createTemplateApi(reqData)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    })
-    .catch(() => {
-      return false;
-    });
+  return commonAction(createTemplateApi, reqData, _dispatch);
+  // return createTemplateApi(reqData)
+  //   .then((res: any) => {
+  //     if (res.statusCode === 200 && !!res.data) {
+  //       return res.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   })
+  //   .catch(() => {
+  //     return false;
+  //   });
 }
 
 export async function getTemplateListAction(
   reqData: IStandardReq<ITemplateListReq>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getTemplateListApi(reqData)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      return false;
-    });
+  return commonAction(getTemplateListApi, reqData, _dispatch);
+  // return getTemplateListApi(reqData)
+  //   .then((res: any) => {
+  //     if (res.statusCode === 200 && !!res.data) {
+  //       return res.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   })
+  //   .catch((res: any) => {
+  //     return false;
+  //   });
 }
 
 export async function getTemplateDetailAction(
   reqData: IStandardReq<ITemplateDetailReq>,
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getTemplateDetailApi(reqData)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      return false;
-    });
+  return commonAction(getTemplateDetailApi, reqData, _dispatch);
+  // return getTemplateDetailApi(reqData)
+  //   .then((res: any) => {
+  //     if (res.statusCode === 200 && !!res.data) {
+  //       return res.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   })
+  //   .catch((res: any) => {
+  //     return false;
+  //   });
 }
 
 export async function createTemplatDataAction(
@@ -69,17 +77,18 @@ export async function createTemplatDataAction(
   },
   _dispatch: Dispatch<AnyAction>
 ) {
-  return createTemplatDataApi(reqData)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      return false;
-    });
+  return commonAction(createTemplatDataApi, reqData, _dispatch);
+  // return createTemplatDataApi(reqData)
+  //   .then((res: any) => {
+  //     if (res.statusCode === 200 && !!res.data) {
+  //       return res.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   })
+  //   .catch((res: any) => {
+  //     return false;
+  //   });
 }
 
 export async function getTemplatDataAction(
@@ -91,15 +100,16 @@ export async function getTemplatDataAction(
   },
   _dispatch: Dispatch<AnyAction>
 ) {
-  return getTemplatDataApi(reqData)
-    .then((res: any) => {
-      if (res.statusCode === 200 && !!res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    })
-    .catch((res: any) => {
-      return false;
-    });
+  return commonAction(getTemplatDataApi, reqData, _dispatch);
+  // return getTemplatDataApi(reqData)
+  //   .then((res: any) => {
+  //     if (res.statusCode === 200 && !!res.data) {
+  //       return res.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   })
+  //   .catch((res: any) => {
+  //     return false;
+  //   });
 }

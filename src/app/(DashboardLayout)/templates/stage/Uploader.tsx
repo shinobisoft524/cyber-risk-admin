@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import readXlsxFile from 'read-excel-file';
+import { setNotificationList } from '@/store/notification';
+import { useDispatch } from '@/store/hooks';
 
 export interface IQuestion {
   cyberkey: string;
@@ -32,6 +34,8 @@ const Uploader = (props: {
   templateId: number;
   handleUpdate: (values: IQuestion[]) => void;
 }) => {
+  const dispatch = useDispatch();
+
   const { templateId, stageId, handleUpdate } = props;
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
 
@@ -124,6 +128,16 @@ const Uploader = (props: {
           }
         });
         handleUpdate(temp);
+
+        dispatch(
+          setNotificationList([
+            {
+              code: null,
+              msg: 'Loading was successful!',
+            },
+          ])
+        );
+
         console.log('-------------', temp);
       });
     }

@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { Grid } from '@mui/material';
 import CustomFormLabel from '@/app/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from '@/app/components/forms/theme-elements/CustomTextField';
-import Thumbnail from '@/components/common/Thumbnail';
-import { useDispatch, useSelector } from '@/store/hooks';
-import { AppState } from '@/store/store';
-import { updateCurrentOrganisation } from '@/store/organisation';
 import QuillEdit from '@/app/components/forms/form-quill/QuillEdit';
-import { createTemplatAction } from '@/actions/template.action';
 
 const TemplateDetail = (props: {
   template: {
     name: string;
+    description: string;
   };
-  handleUpdate: (valude: string) => void;
+  handleUpdate: (key: 'name' | 'description', valude: string) => void;
 }) => {
   const { template, handleUpdate } = props;
 
@@ -39,7 +35,7 @@ const TemplateDetail = (props: {
             defaultValue={template.name}
             onChange={(e) => {
               const value: string = e.target.value || '';
-              handleUpdate(value);
+              handleUpdate('name', value);
             }}
           />
         </Grid>
@@ -50,7 +46,10 @@ const TemplateDetail = (props: {
           </CustomFormLabel>
         </Grid>
         <Grid item xs={12}>
-          <QuillEdit handleUpdate={handleUpdate} />
+          <QuillEdit
+            value={template.description || ''}
+            handleUpdate={(value: string) => handleUpdate('description', value)}
+          />
         </Grid>
       </Grid>
     </Box>

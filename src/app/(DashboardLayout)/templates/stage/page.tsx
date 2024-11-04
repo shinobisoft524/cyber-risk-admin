@@ -16,6 +16,9 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { createTemplatDataAction, getTemplatDataAction } from '@/actions/template.action';
+import { useDispatch } from '@/store/hooks';
+import { Button, Grid, Stack } from '@mui/material';
+import useIsReady from '@/app/components/Ready';
 
 const dynamoDBClient = new DynamoDBClient({
   region: 'eu-west-1', // e.g., 'us-west-2'
@@ -29,19 +32,31 @@ export default function Page() {
   const searchParams = useSearchParams();
   const templateId = searchParams.get('templateId');
   const id = searchParams.get('id');
+  const dispatch = useDispatch();
+
+  const isReady = useIsReady();
 
   const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUpdated, setIsUpdated] = useState(false);
+
   const handleUpdate = (values: any) => {
     setRows(values);
+    setIsUpdated(true);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getTemplateData();
-    }, 2000);
-  }, []);
+    if (isReady) {
+      setTimeout(() => {
+        getTemplateData();
+      }, 2000);
+    }
+  }, [isReady]);
 
   const getTemplateData = async () => {
+    if (!templateId || !id) return;
+    setIsLoading(true);
+    setIsUpdated(false);
     getTemplatDataAction(
       {
         // type: 'new', // type: id ? 'update' : 'new',
@@ -52,7 +67,7 @@ export default function Page() {
           },
         },
       },
-      null as any //dispatch
+      dispatch
     ).then((res: any[]) => {
       if (!id) {
         // router.push(`/templates/detail?id=${res.id}`);
@@ -63,6 +78,7 @@ export default function Page() {
         setRows(data as any);
         // getTemplate();
       }
+      setIsLoading(false);
     });
   };
 
@@ -141,6 +157,7 @@ export default function Page() {
   // };
 
   const handleSave = () => {
+    setIsUpdated(false);
     createTemplatDataAction(
       {
         // type: 'new', // type: id ? 'update' : 'new',
@@ -149,16 +166,13 @@ export default function Page() {
           value: rows,
         },
       },
-      null as any //dispatch
+      dispatch
     ).then((res: any) => {
-      if (!id) {
-        // router.push(`/templates/detail?id=${res.id}`);
-      } else {
-        // getTemplate();
-      }
+      getTemplateData();
     });
   };
 
+  if (isLoading) return <></>;
   return (
     <PageContainer title="Template Stage Page" description="This is a template stage page">
       <Breadcrumb
@@ -173,17 +187,47 @@ export default function Page() {
           },
         ]}
       />
-      <BlankCard>
-        <StageList list={rows} />
-      </BlankCard>
-      <BlankCard>
-        <Uploader
-          stageId={Number(id) || 1}
-          templateId={Number(templateId)}
-          handleUpdate={handleUpdate}
-        />
-      </BlankCard>
-      <button onClick={handleSave}>save try</button>
+      {templateId && id && rows.length > 0 ? (
+        <>
+          <BlankCard>
+            <StageList list={rows} />
+          </BlankCard>
+        </>
+      ) : (
+        <></>
+      )}
+
+      {templateId && id && rows.length === 0 ? (
+        <>
+          <Stack mt={3} spacing={3}>
+            <BlankCard>
+              <Uploader
+                stageId={Number(id) || 1}
+                templateId={Number(templateId)}
+                handleUpdate={(values) => {
+                  handleUpdate(values);
+                }}
+              />
+            </BlankCard>
+          </Stack>
+        </>
+      ) : (
+        <></>
+      )}
+      {templateId && id && rows.length !== 0 && isUpdated ? (
+        <>
+          <Stack direction="row" spacing={2} mt={3}>
+            <Button variant="contained" color="primary" onClick={handleSave}>
+              Save Changes
+            </Button>
+            <Button variant="outlined" color="error">
+              Cancel
+            </Button>
+          </Stack>
+        </>
+      ) : (
+        <></>
+      )}
     </PageContainer>
   );
 }

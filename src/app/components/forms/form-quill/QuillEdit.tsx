@@ -17,10 +17,8 @@ const ReactQuill: any = dynamic(
   }
 );
 
-import Paper from '@mui/material/Paper';
-
-const QuillEdit = (props: { handleUpdate?: (value: string) => void }) => {
-  const [text, setText] = useState('');
+const QuillEdit = (props: { value: string; handleUpdate?: (value: string) => void }) => {
+  const [text, setText] = useState(props.value || '');
 
   const { handleUpdate } = props;
   const theme = useTheme();
@@ -33,7 +31,7 @@ const QuillEdit = (props: { handleUpdate?: (value: string) => void }) => {
 
   return (
     <ReactQuill
-      // value={text}
+      value={text}
       onChange={(value: any) => {
         console.log('--------------value', value);
         setText(value);

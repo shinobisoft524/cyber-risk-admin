@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import TemplateDetail from './templateDetail';
 import { createTemplatAction, getTemplateDetailAction } from '@/actions/template.action';
 import Link from 'next/link';
+import useIsReady from '@/app/components/Ready';
 
 const BCrumb = [
   {
@@ -29,18 +30,25 @@ export default function Page() {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const isReady = useIsReady();
   const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [stages, setStages] = useState<string[]>([]);
 
   useEffect(() => {
-    if (id) {
-      getTemplate();
-    } else {
+    if (isReady) {
+      if (id) {
+        getTemplate();
+      } else {
+        setIsLoading(false);
+      }
     }
-  }, [id]);
+  }, [isReady, id]);
 
   const getTemplate = () => {
+    setIsLoading(true);
     getTemplateDetailAction(
       {
         info: {
@@ -51,9 +59,13 @@ export default function Page() {
     ).then((res: any) => {
       // setRows(res);
       setName(res.name);
+      setDescription(res.description);
       if (res.TemplateStage && res.TemplateStage.length) {
         setStages(res.TemplateStage);
       }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 50);
     });
   };
 
@@ -61,8 +73,12 @@ export default function Page() {
     return stages.length > 0;
   }, [stages]);
 
-  const handleUpdate = (value: string) => {
-    setName(value);
+  const handleUpdate = (key: 'name' | 'description', value: string) => {
+    if (key === 'name') {
+      setName(value);
+    } else if (key === 'description') {
+      setDescription(value);
+    }
   };
 
   const handleSave = () => {
@@ -73,6 +89,7 @@ export default function Page() {
           info: {
             id: id as any,
             name: name,
+            description: description,
           },
         },
         dispatch
@@ -94,7 +111,14 @@ export default function Page() {
         <Grid item lg={6}>
           <Stack spacing={3}>
             <BlankCard>
-              <TemplateDetail template={{ name: name }} handleUpdate={handleUpdate} />
+              {!isLoading ? (
+                <TemplateDetail
+                  template={{ name: name, description: description }}
+                  handleUpdate={handleUpdate}
+                />
+              ) : (
+                <></>
+              )}
             </BlankCard>
           </Stack>
         </Grid>
