@@ -19,6 +19,7 @@ import { createTemplatDataAction, getTemplatDataAction } from '@/actions/templat
 import { useDispatch } from '@/store/hooks';
 import { Button, Grid, Stack } from '@mui/material';
 import useIsReady from '@/app/components/Ready';
+import { SortableTree } from './tree/tree';
 
 const dynamoDBClient = new DynamoDBClient({
   region: 'eu-west-1', // e.g., 'us-west-2'
@@ -228,6 +229,7 @@ export default function Page() {
       ) : (
         <></>
       )}
+      <SortableTree />
     </PageContainer>
   );
 }
