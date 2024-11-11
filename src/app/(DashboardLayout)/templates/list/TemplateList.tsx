@@ -32,6 +32,8 @@ import { Button } from '@mui/material';
 import { Organisation } from '@/cprisma';
 import useIsReady from '@/app/components/Ready';
 
+import AddIcon from '@mui/icons-material/Add';
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -426,28 +428,52 @@ const TemplateList = () => {
                         </TableCell>
 
                         <TableCell align="left">
-                          <Tooltip title="View Stage 1">
-                            <IconButton
-                              onClick={() =>
-                                router.push(`/templates/stage?id=1&templateId=${row.id}`)
-                              }
-                              color="primary"
-                            >
-                              <IconEye width={22} />
-                            </IconButton>
-                          </Tooltip>
+                          {row.TemplateStage?.length > 0 && (
+                            <Tooltip title="View Stage 1">
+                              <IconButton
+                                onClick={() =>
+                                  router.push(`/templates/stage?id=1&templateId=${row.id}`)
+                                }
+                                color="primary"
+                              >
+                                <IconEye width={22} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                          {row.TemplateStage?.length === 0 && (
+                            <Tooltip title="Add Stage">
+                              <IconButton
+                                onClick={() => router.push(`/templates/stage?templateId=${row.id}`)}
+                                color="primary"
+                              >
+                                <AddIcon width={22} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
                         </TableCell>
                         <TableCell align="left">
-                          <Tooltip title="View Stage 2">
-                            <IconButton
-                              onClick={() =>
-                                router.push(`/templates/stage?id=2&templateId=${row.id}`)
-                              }
-                              color="primary"
-                            >
-                              <IconEye width={22} />
-                            </IconButton>
-                          </Tooltip>
+                          {row.TemplateStage?.length > 0 && (
+                            <Tooltip title="View Stage 2">
+                              <IconButton
+                                onClick={() =>
+                                  router.push(`/templates/stage?id=2&templateId=${row.id}`)
+                                }
+                                color="primary"
+                              >
+                                <IconEye width={22} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                          {row.TemplateStage?.length === 0 && (
+                            <Tooltip title="Add Stage">
+                              <IconButton
+                                onClick={() => router.push(`/templates/stage?templateId=${row.id}`)}
+                                color="primary"
+                              >
+                                <AddIcon width={22} />
+                              </IconButton>
+                            </Tooltip>
+                          )}
                         </TableCell>
 
                         <TableCell align="left">

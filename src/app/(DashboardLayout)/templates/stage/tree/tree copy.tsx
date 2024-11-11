@@ -97,7 +97,6 @@ interface Props {
   indentationWidth?: number;
   indicator?: boolean;
   removable?: boolean;
-  handleUpdate?: (value: any) => void;
 }
 
 export function SortableTree({
@@ -106,19 +105,8 @@ export function SortableTree({
   indicator = false,
   indentationWidth = 50,
   removable,
-  handleUpdate,
 }: Props) {
   const [items, setItems] = useState(() => defaultItems);
-
-  useEffect(() => {
-    setItems(defaultItems);
-  }, [defaultItems]);
-
-  useEffect(() => {
-    handleUpdate && handleUpdate(items);
-    console.log('--s-f-dsf-', items);
-  }, [items]);
-
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [overId, setOverId] = useState<UniqueIdentifier | null>(null);
   const [offsetLeft, setOffsetLeft] = useState(0);

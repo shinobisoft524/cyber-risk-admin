@@ -14,17 +14,14 @@
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
 }
-
 @media (hover: hover) {
   .Action:hover {
     background-color: var(--action-background, rgba(0, 0, 0, 0.05));
   }
-
   .Action:hover svg {
     fill: #6f7b88;
   }
 }
-
 .Action svg {
   flex: 0 0 auto;
   margin: auto;
@@ -32,15 +29,12 @@
   overflow: visible;
   fill: #919eab;
 }
-
 .Action:active {
   background-color: var(--background, rgba(0, 0, 0, 0.05));
 }
-
 .Action:active svg {
   fill: var(--fill, #788491);
 }
-
 .Action:focus-visible {
   outline: none;
   box-shadow:
