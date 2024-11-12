@@ -97,12 +97,13 @@ export default function Page() {
         // type: 'new', // type: id ? 'update' : 'new',
         user: null as any,
         info: {
+          templateId: Number(templateId),
           value: values,
         },
       },
       dispatch
     ).then((res: any) => {
-      getTemplateData();
+      window.location.href = '/templates/list';
     });
   };
 

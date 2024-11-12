@@ -72,6 +72,7 @@ export async function createTemplatDataAction(
   reqData: {
     user: User;
     info: {
+      templateId: number;
       value: any[];
     };
   },
