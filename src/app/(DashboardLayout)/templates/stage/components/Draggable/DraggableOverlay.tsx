@@ -1,15 +1,15 @@
-import React, {ComponentProps} from 'react';
-import {createPortal} from 'react-dom';
-import {DragOverlay, useDndContext} from '@dnd-kit/core';
-import type {DropAnimation} from '@dnd-kit/core';
-import {CSS} from '@dnd-kit/utilities';
+import React, { ComponentProps } from 'react';
+import { createPortal } from 'react-dom';
+import { DragOverlay, useDndContext } from '@dnd-kit/core';
+import type { DropAnimation } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 
-import {Draggable} from './Draggable';
+import { Draggable } from './Draggable';
 
 const dropAnimationConfig: DropAnimation = {
-  keyframes({transform}) {
+  keyframes({ transform }) {
     return [
-      {transform: CSS.Transform.toString(transform.initial)},
+      { transform: CSS.Transform.toString(transform.initial) },
       {
         transform: CSS.Transform.toString({
           ...transform.final,
@@ -19,7 +19,7 @@ const dropAnimationConfig: DropAnimation = {
       },
     ];
   },
-  sideEffects({active, dragOverlay}) {
+  sideEffects({ active, dragOverlay }) {
     active.node.style.opacity = '0';
 
     const button = dragOverlay.node.querySelector('button');
@@ -32,8 +32,7 @@ const dropAnimationConfig: DropAnimation = {
               '-1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25)',
           },
           {
-            boxShadow:
-              '-1px 0 15px 0 rgba(34, 33, 81, 0), 0px 15px 15px 0 rgba(34, 33, 81, 0)',
+            boxShadow: '-1px 0 15px 0 rgba(34, 33, 81, 0), 0px 15px 15px 0 rgba(34, 33, 81, 0)',
           },
         ],
         {
@@ -55,11 +54,8 @@ interface Props {
   dropAnimation?: DropAnimation | null;
 }
 
-export function DraggableOverlay({
-  axis,
-  dropAnimation = dropAnimationConfig,
-}: Props) {
-  const {active} = useDndContext();
+export function DraggableOverlay({ axis, dropAnimation = dropAnimationConfig }: Props) {
+  const { active } = useDndContext();
 
   return createPortal(
     <DragOverlay dropAnimation={dropAnimation}>
