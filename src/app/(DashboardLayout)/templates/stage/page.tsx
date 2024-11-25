@@ -34,11 +34,15 @@ export default function Page() {
   const id = searchParams.get('id');
   const dispatch = useDispatch();
 
+  const isAddStage = !id;
   const isReady = useIsReady();
 
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdated, setIsUpdated] = useState(false);
+
+  const [data, setData] = useState<string[][]>([]);
+  const [keyData, setKeyData] = useState<string[][]>([]);
 
   const handleUpdate = (values: any) => {
     setRows(values);
@@ -54,7 +58,11 @@ export default function Page() {
   }, [isReady]);
 
   const getTemplateData = async () => {
-    if (!templateId || !id) return;
+    if (isAddStage) {
+      setIsLoading(false);
+      return;
+    }
+    if (!templateId) return;
     setIsLoading(true);
     setIsUpdated(false);
     getTemplatDataAction(
@@ -82,93 +90,20 @@ export default function Page() {
     });
   };
 
-  // const getTemplateData = async () => {
-  //   // const params = {
-  //   //   TableName: 'cyber-templates',
-  //   //   Key: {
-  //   //     cyberId: { S: `cyber-template-id-${templateId}-stage-id-${id}-version-id-1` },
-  //   //   },
-  //   // };
-
-  //   // const input = {
-  //   //   RequestItems: {
-  //   //     'cyber-templates2': {
-  //   //       Keys: [
-  //   //         {
-  //   //           "cyberkey": {
-  //   //             S: `cyber-template-id-${templateId}-stage-id-${id}-version-id-1`,
-  //   //           },
-  //   //         },
-  //   //       ],
-  //   //       ProjectionExpression: 'cyberkey',
-  //   //     },
-  //   //   },
-  //   // };
-
-  //   try {
-  //     const command = new ScanCommand({
-  //       TableName: 'cyber-templates',
-  //       ReturnConsumedCapacity: 'TOTAL',
-  //     });
-  //     const response = await dynamoDBClient.send(command);
-  //     console.log('Item fetched successfully:', response);
-  //   } catch (error) {
-  //     console.error('Error fetching item:', error);
-  //   }
-  // };
-
-  // const addDataToDynamoDB = async () => {
-  //   rows.forEach(async (item: any) => {
-  //     // const value = {
-  //     //   cyberId: { S: item.cyberId },
-  //     //   templateInfo: {
-  //     //     M: {
-  //     //       templateId: { N: item.templateInfo.templateId.toString() },
-  //     //       stageId: { S: item.templateInfo.stageId },
-  //     //     },
-  //     //   },
-  //     //   nId: { N: item.nId.toString() },
-  //     //   question: { S: item.question },
-  //     //   answers: {
-  //     //     L: item.answers.map((answer: any) => ({
-  //     //       M: {
-  //     //         id: { N: answer.id.toString() },
-  //     //         value: { S: answer.value },
-  //     //       },
-  //     //     })),
-  //     //   },
-  //     //   date1: { S: item.date1 },
-  //     //   date2: { S: item.date2 },
-  //     // };
-
-  //     const params = {
-  //       TableName: 'cyber-templates2',
-  //       Item: item,
-  //     };
-
-  //     try {
-  //       const command = new PutCommand(params);
-  //       await dynamoDBClient.send(command);
-  //       console.log('Data added successfully');
-  //     } catch (error) {
-  //       console.error('Error adding data: ', error);
-  //     }
-  //   });
-  // };
-
-  const handleSave = () => {
+  const handleSave = (values: any) => {
     setIsUpdated(false);
     createTemplatDataAction(
       {
         // type: 'new', // type: id ? 'update' : 'new',
         user: null as any,
         info: {
-          value: rows,
+          templateId: Number(templateId),
+          value: values,
         },
       },
       dispatch
     ).then((res: any) => {
-      getTemplateData();
+      window.location.href = '/templates/list';
     });
   };
 
@@ -197,34 +132,14 @@ export default function Page() {
         <></>
       )}
 
-      {templateId && id && rows.length === 0 ? (
-        <>
-          <Stack mt={3} spacing={3}>
-            <BlankCard>
-              <Uploader
-                stageId={Number(id) || 1}
-                templateId={Number(templateId)}
-                handleUpdate={(values) => {
-                  handleUpdate(values);
-                }}
-              />
-            </BlankCard>
-          </Stack>
-        </>
-      ) : (
-        <></>
-      )}
-      {templateId && id && rows.length !== 0 && isUpdated ? (
-        <>
-          <Stack direction="row" spacing={2} mt={3}>
-            <Button variant="contained" color="primary" onClick={handleSave}>
-              Save Changes
-            </Button>
-            <Button variant="outlined" color="error">
-              Cancel
-            </Button>
-          </Stack>
-        </>
+      {templateId && !id && rows.length === 0 ? (
+        <Uploader
+          stageId={Number(id) || 1}
+          templateId={Number(templateId)}
+          handleSave={(values) => {
+            handleSave(values);
+          }}
+        />
       ) : (
         <></>
       )}

@@ -156,6 +156,19 @@ export default function Page() {
       ) : (
         <></>
       )}
+      {!hasStage && id ? (
+        <Grid container mt={6} spacing={3}>
+          <Grid item lg={6}>
+            <Stack spacing={3}>
+              <BlankCard>
+                <Link href={`/templates/stage?templateId=${id}`}>Add Stage File</Link>
+              </BlankCard>
+            </Stack>
+          </Grid>
+        </Grid>
+      ) : (
+        <></>
+      )}
     </PageContainer>
   );
 }
