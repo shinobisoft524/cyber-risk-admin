@@ -307,7 +307,7 @@ const OrganisationList = () => {
   const theme = useTheme();
   const borderColor = theme.palette.divider;
 
-  if (!isReady) return <></>;
+  if (!isReady || !list || list.length === 0) return <></>;
   return (
     <Box>
       <Box>

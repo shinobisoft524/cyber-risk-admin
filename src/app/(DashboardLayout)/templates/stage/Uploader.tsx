@@ -9,6 +9,8 @@ import { useDispatch } from '@/store/hooks';
 import MultipleContainers from './container/MultipleContainers';
 import BlankCard from '@/app/components/shared/BlankCard';
 import { SortableTree } from './tree/tree';
+import { SortableTree2 } from './tree/tree2';
+import MultipleContainers2 from './container/MultipleContainers2';
 
 export interface IQuestion {
   cyberkey: string;
@@ -190,6 +192,7 @@ const Uploader = (props: {
       B: [],
       C: [],
       D: [],
+      E: [],
     };
   }, [keyData]);
 
@@ -503,7 +506,7 @@ const Uploader = (props: {
 
       {data.length > 0 ? (
         <>
-          <MultipleContainers
+          <MultipleContainers2
             items={intialItems1}
             handleUpdateItems={(fields) => {
               setStage1Data(fields);
@@ -514,7 +517,7 @@ const Uploader = (props: {
               <Grid item xs={12} sm={3} lg={3} mb={3}>
                 <BlankCard>
                   <Stack p={4}>
-                    <SortableTree
+                    <SortableTree2
                       defaultItems={initialTreeItem1}
                       handleUpdate={(v: any) => {
                         setCategory1(v);
