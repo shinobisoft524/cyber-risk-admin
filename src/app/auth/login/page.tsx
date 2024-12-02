@@ -38,7 +38,7 @@ export default function Login() {
               display: 'flex',
               flexDirection: 'column',
               height: '100%',
-              background: '#006cf5',
+              background: '#0075be',
             }}
           >
             <Box px={3}>
@@ -96,12 +96,17 @@ export default function Login() {
           lg={5}
           xl={4}
           display="flex"
+          flexDirection={'column'}
           justifyContent="center"
           alignItems="center"
         >
+          {' '}
+          <Box p={4}>
+            <Logo />
+          </Box>
           <Box p={4}>
             <AuthLogin
-              title="Welcome to Cyberprism"
+              title="Welcome to CyberPrism Admin"
               subtext={
                 <Typography variant="subtitle1" color="textSecondary" mb={1}>
                   Your Admin Dashboard

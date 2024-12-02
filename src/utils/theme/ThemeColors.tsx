@@ -3,13 +3,13 @@ const ThemeColors = [
     name: 'SHINOBI_THEME',
     palette: {
       primary: {
-        main: '#0074BA',
-        light: '#FFFFFF',
+        main: '#0075be',
+        light: '#0075be',
         dark: '#006DAF',
       },
       secondary: {
-        main: '#47D7BC',
-        light: '#EDFBF7',
+        main: '#0075be',
+        light: '#0075be',
         dark: '#39C7AD',
       },
     },

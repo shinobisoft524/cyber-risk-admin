@@ -59,7 +59,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
       {subtext}
 
-      <AuthSocialButtons title="Sign in with" />
+      {/* <AuthSocialButtons title="Sign in with" />
       <Box mt={3}>
         <Divider>
           <Typography
@@ -73,7 +73,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             or sign in with
           </Typography>
         </Divider>
-      </Box>
+      </Box> */}
 
       <Stack>
         <Box>

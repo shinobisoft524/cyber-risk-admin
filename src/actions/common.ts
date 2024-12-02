@@ -6,7 +6,8 @@ export async function commonAction(
   _action: Function,
   data: IStandardReq<unknown>,
   _dispatch?: Dispatch<any>,
-  _reduxAction?: ActionCreatorWithPayload<unknown>
+  _reduxAction?: ActionCreatorWithPayload<unknown>,
+  isNotification: boolean = false
 ) {
   return _action(data)
     .then((res: IStandardRes<unknown>) => {
@@ -15,6 +16,7 @@ export async function commonAction(
           _dispatch && _dispatch(_reduxAction(res.data));
         }
         _dispatch &&
+          isNotification &&
           _dispatch(
             setNotificationList([
               {
@@ -26,6 +28,7 @@ export async function commonAction(
         return res.data;
       } else if (res.statusCode === 200) {
         _dispatch &&
+          isNotification &&
           _dispatch(
             setNotificationList([
               {

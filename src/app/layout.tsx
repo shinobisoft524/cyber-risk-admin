@@ -3,7 +3,7 @@ import { Providers } from '@/store/providers';
 import MyApp from './app';
 
 export const metadata = {
-  title: 'Cyberprism Demo',
+  title: 'Cyberprism Admin',
   description: 'Cyberprism web application',
 };
 

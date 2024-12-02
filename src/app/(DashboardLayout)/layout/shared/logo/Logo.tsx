@@ -8,8 +8,9 @@ import Image from 'next/image';
 const Logo = () => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const LinkStyled = styled(Link)(() => ({
-    height: customizer.TopbarHeight,
-    width: customizer.isCollapse ? '40px' : '180px',
+    margin: 8,
+    height: 54.5, //customizer.TopbarHeight,
+    width: customizer.isCollapse ? '40px' : '174px',
     overflow: 'hidden',
     display: 'block',
   }));
@@ -19,17 +20,18 @@ const Logo = () => {
       <LinkStyled href="/">
         {customizer.activeMode === 'dark' ? (
           <Image
-            src="/images/logos/light-logo.svg"
+            src="/images/logos/cyber-logo.png"
             alt="logo"
-            height={customizer.TopbarHeight}
+            // height={customizer.TopbarHeight}
+            height={54.5}
             width={174}
             priority
           />
         ) : (
           <Image
-            src={'/logos/fincatLogo.svg'}
+            src={'/images/logos/cyber-logo.png'}
             alt="logo"
-            height={customizer.TopbarHeight}
+            height={54.5}
             width={174}
             priority
           />
@@ -42,7 +44,7 @@ const Logo = () => {
     <LinkStyled href="/">
       {customizer.activeMode === 'dark' ? (
         <Image
-          src="/images/logos/dark-rtl-logo.svg"
+          src="/images/logos/cyber-logo.png"
           alt="logo"
           height={customizer.TopbarHeight}
           width={174}
@@ -50,7 +52,7 @@ const Logo = () => {
         />
       ) : (
         <Image
-          src="/images/logos/light-logo-rtl.svg"
+          src="/images/logos/cyber-logo.png"
           alt="logo"
           height={customizer.TopbarHeight}
           width={174}

@@ -1,6 +1,9 @@
+'use client';
+
 import PageContainer from '@/app/components/container/PageContainer';
 import HpHeader from '@/components/landing-page/header/HpHeader';
 import Banner from '@/components/landing-page/Banner';
+import { useEffect } from 'react';
 // import HpHeader from '../../components/frontend-pages/shared/header/HpHeader';
 // import Features from '../../components/frontend-pages/homepage/features/Features';
 // import DefendFocus from '../../components/frontend-pages/homepage/defend-focus';
@@ -15,6 +18,10 @@ import Banner from '@/components/landing-page/Banner';
 // import ScrollToTop from '../../components/frontend-pages/shared/scroll-to-top';
 
 const HomePage = () => {
+  useEffect(() => {
+    window.location.href = '/auth/login';
+  }, []);
+
   return (
     <PageContainer title="Homepage" description="this is Homepage">
       <HpHeader />

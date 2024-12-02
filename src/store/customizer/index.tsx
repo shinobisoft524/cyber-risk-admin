@@ -20,7 +20,7 @@ interface StateType {
 const initialState: StateType = {
   activeDir: 'ltr',
   activeMode: 'light', // This can be light or dark
-  activeTheme: 'SHINOBI_THEME', // SHINOBI_THEME, BLUE_THEME, GREEN_THEME, BLACK_THEME, PURPLE_THEME, ORANGE_THEME
+  activeTheme: 'AQUA_THEME', // SHINOBI_THEME, BLUE_THEME, GREEN_THEME, BLACK_THEME, PURPLE_THEME, ORANGE_THEME
   SidebarWidth: 270,
   MiniSidebarWidth: 87,
   TopbarHeight: 70,
